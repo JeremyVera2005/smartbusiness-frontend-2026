@@ -1,0 +1,53 @@
+/* Estilos compartidos de las pantallas de autenticación */
+.auth {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(60rem 60rem at 110% -10%, var(--c-primary-soft), transparent 60%),
+    var(--c-bg);
+}
+
+.auth__card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.auth__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 750;
+  font-size: 1.15rem;
+  margin-bottom: 0.35rem;
+}
+.auth__brand span {
+  color: var(--c-primary);
+}
+
+.auth__card h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.35rem;
+}
+.auth__card > p.muted {
+  margin-bottom: 1.5rem;
+}
+
+.auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth__alt {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--c-text-soft);
+}

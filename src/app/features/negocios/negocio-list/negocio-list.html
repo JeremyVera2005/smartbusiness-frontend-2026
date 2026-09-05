@@ -1,0 +1,53 @@
+<header class="mini-top">
+  <div class="mini-top__inner container">
+    <span class="brand"><span aria-hidden="true">◧</span> SmartBusiness<span>IA</span></span>
+    <button type="button" class="btn btn--ghost btn--sm" (click)="logout()">Cerrar sesión</button>
+  </div>
+</header>
+
+<main class="container" style="padding-block: clamp(1.5rem, 5vw, 3rem)">
+  <div class="page-head">
+    <div>
+      <h1>Mis negocios</h1>
+      <p>Hola {{ usuario()?.nombre }}, elige un negocio para gestionarlo.</p>
+    </div>
+    @if (hayNegocios()) {
+      <a routerLink="/negocios/nuevo" class="btn">+ Nuevo negocio</a>
+    }
+  </div>
+
+  @if (loading()) {
+    <app-spinner label="Cargando negocios…" />
+  } @else if (!hayNegocios()) {
+    <app-empty-state
+      icon="🏪"
+      title="Aún no tienes negocios"
+      message="Crea tu primer negocio para empezar a registrar productos, ventas y recibir alertas inteligentes."
+    >
+      <a routerLink="/negocios/nuevo" class="btn">Crear mi primer negocio</a>
+    </app-empty-state>
+  } @else {
+    <ul class="biz-grid">
+      @for (n of negocios(); track n.idNegocio) {
+        <li class="biz card">
+          <div class="biz__head">
+            <h2>{{ n.nombre }}</h2>
+            <span class="badge badge--primary">{{ tipoLabel(n.tipoNegocio) }}</span>
+          </div>
+          <dl class="biz__meta">
+            @if (n.ubicacion) {
+              <div><dt>Ubicación</dt><dd>{{ n.ubicacion }}</dd></div>
+            }
+            <div>
+              <dt>Tu rol</dt>
+              <dd>{{ n.rolUsuario === 'DUENO' ? 'Dueño' : 'Empleado' }}</dd>
+            </div>
+          </dl>
+          <button type="button" class="btn btn--block" (click)="entrar(n)">
+            Entrar →
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</main>

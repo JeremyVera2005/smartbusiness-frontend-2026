@@ -1,0 +1,48 @@
+<div class="page-head">
+  <div>
+    <h1>Asistente IA</h1>
+    <p>Pregunta sobre el estado de tu negocio. Usa las alertas de stock y demanda como contexto.</p>
+  </div>
+</div>
+
+<div class="chat card">
+  <div class="chat__log" role="log" aria-live="polite">
+    @if (!mensajes().length) {
+      <div class="chat__empty">
+        <p class="muted">Empieza con una pregunta:</p>
+        <div class="sugerencias">
+          @for (s of sugerencias; track s) {
+            <button type="button" class="btn btn--ghost btn--sm" (click)="preguntar(s)">{{ s }}</button>
+          }
+        </div>
+      </div>
+    }
+    @for (m of mensajes(); track $index) {
+      <div class="msg" [class.msg--user]="m.autor === 'usuario'">
+        <span class="msg__who">{{ m.autor === 'usuario' ? 'Tú' : 'Asistente' }}</span>
+        <p class="msg__text">{{ m.texto }}</p>
+      </div>
+    }
+    @if (enviando()) {
+      <div class="msg">
+        <span class="msg__who">Asistente</span>
+        <p class="msg__text muted">Pensando…</p>
+      </div>
+    }
+  </div>
+
+  <form class="chat__input" (ngSubmit)="preguntar()">
+    <label for="q" class="visually-hidden">Escribe tu pregunta</label>
+    <textarea
+      id="q"
+      class="textarea"
+      rows="2"
+      placeholder="Escribe tu pregunta…"
+      [ngModel]="pregunta()"
+      (ngModelChange)="pregunta.set($event)"
+      (keydown)="onKeydown($event)"
+      name="q"
+    ></textarea>
+    <button type="submit" class="btn" [disabled]="enviando() || !pregunta().trim()">Enviar</button>
+  </form>
+</div>

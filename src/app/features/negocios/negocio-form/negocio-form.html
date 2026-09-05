@@ -1,0 +1,92 @@
+<header class="mini-top">
+  <div class="mini-top__inner container">
+    <span class="brand"><span aria-hidden="true">◧</span> SmartBusiness<span>IA</span></span>
+    <button type="button" class="btn btn--ghost btn--sm" (click)="logout()">Cerrar sesión</button>
+  </div>
+</header>
+
+<main class="container form-page">
+  <div class="page-head">
+    <div>
+      <h1>Nuevo negocio</h1>
+      <p>Configura los datos básicos. Podrás ajustarlos más adelante.</p>
+    </div>
+    <a routerLink="/negocios" class="btn btn--ghost btn--sm">← Volver</a>
+  </div>
+
+  <div class="layout">
+    <form class="card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field" [class.field--error]="form.controls.nombre.touched && form.controls.nombre.invalid">
+        <label for="nombre">Nombre del negocio *</label>
+        <input id="nombre" type="text" class="input" formControlName="nombre" required />
+        @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+          <span class="field-error">Ingresa un nombre (mín. 2 caracteres).</span>
+        }
+      </div>
+
+      <div class="field" [class.field--error]="form.controls.tipoNegocio.touched && form.controls.tipoNegocio.invalid">
+        <label for="tipo">Tipo de negocio *</label>
+        <select id="tipo" class="select" formControlName="tipoNegocio" (change)="onTipoChange()" required>
+          <option value="" disabled>Selecciona…</option>
+          @for (t of tipos; track t.value) {
+            <option [value]="t.value">{{ t.label }}</option>
+          }
+        </select>
+        @if (form.controls.tipoNegocio.touched && form.controls.tipoNegocio.invalid) {
+          <span class="field-error">Selecciona el tipo de negocio.</span>
+        }
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="ubicacion">Ubicación</label>
+          <input id="ubicacion" type="text" class="input" formControlName="ubicacion" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="tamano">Tamaño</label>
+          <select id="tamano" class="select" formControlName="tamano">
+            <option value="">Sin especificar</option>
+            @for (t of tamanos; track t.value) {
+              <option [value]="t.value">{{ t.label }}</option>
+            }
+          </select>
+        </div>
+        <div class="field">
+          <label for="apertura">Hora de apertura</label>
+          <input id="apertura" type="time" class="input" formControlName="horarioApertura" />
+        </div>
+        <div class="field">
+          <label for="cierre">Hora de cierre</label>
+          <input id="cierre" type="time" class="input" formControlName="horarioCierre" />
+        </div>
+      </div>
+
+      <button type="submit" class="btn" [disabled]="loading()">
+        {{ loading() ? 'Creando…' : 'Crear negocio' }}
+      </button>
+    </form>
+
+    @if (camposExtra().length || modulos().length) {
+      <aside class="card preview">
+        <h2>Este rubro habilita</h2>
+        @if (modulos().length) {
+          <h3>Módulos</h3>
+          <ul class="chips">
+            @for (m of modulos(); track m) {
+              <li class="badge badge--info">{{ m }}</li>
+            }
+          </ul>
+        }
+        @if (camposExtra().length) {
+          <h3>Campos extra de producto</h3>
+          <ul class="chips">
+            @for (c of camposExtra(); track c) {
+              <li class="badge">{{ c }}</li>
+            }
+          </ul>
+        }
+        <p class="text-faint">La ficha de producto se adapta automáticamente a estos campos.</p>
+      </aside>
+    }
+  </div>
+</main>

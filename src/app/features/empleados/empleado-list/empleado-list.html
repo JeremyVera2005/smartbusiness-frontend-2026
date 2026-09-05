@@ -1,0 +1,76 @@
+<div class="page-head">
+  <div>
+    <h1>Personal</h1>
+    <p>Da de alta trabajadores y asígnalos a este negocio.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <form class="card form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <h2>Agregar empleado</h2>
+    <div class="field" [class.field--error]="form.controls.nombre.touched && form.controls.nombre.invalid">
+      <label for="nombre">Nombre *</label>
+      <input id="nombre" type="text" class="input" formControlName="nombre" autocomplete="off" required />
+      @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+        <span class="field-error">Ingresa el nombre.</span>
+      }
+    </div>
+    <div class="field" [class.field--error]="form.controls.email.touched && form.controls.email.invalid">
+      <label for="email">Correo *</label>
+      <input id="email" type="email" class="input" formControlName="email" autocomplete="off" inputmode="email" required />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <span class="field-error">Ingresa un correo válido.</span>
+      }
+    </div>
+    <div class="field" [class.field--error]="form.controls.password.touched && form.controls.password.invalid">
+      <label for="password">Contraseña temporal *</label>
+      <input id="password" type="text" class="input" formControlName="password" autocomplete="off" required />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="field-error">Mínimo 8 caracteres.</span>
+      } @else {
+        <span class="text-faint" style="font-size: 0.82rem">El empleado podrá cambiarla luego. Mínimo 8 caracteres.</span>
+      }
+    </div>
+    <button type="submit" class="btn" [disabled]="saving()">
+      {{ saving() ? 'Agregando…' : 'Agregar al equipo' }}
+    </button>
+  </form>
+
+  <section class="card">
+    <h2>Equipo actual</h2>
+    @if (loading()) {
+      <app-spinner label="Cargando equipo…" [showLabel]="false" />
+    } @else if (!empleados().length) {
+      <p class="muted">Aún no hay personal registrado.</p>
+    } @else {
+      <ul class="team">
+        @for (e of empleados(); track e.idUsuario) {
+          <li>
+            <div class="team__info">
+              <span class="avatar" aria-hidden="true">{{ e.nombre[0] }}</span>
+              <div>
+                <strong>{{ e.nombre }}</strong>
+                <span class="text-faint">{{ e.email }}</span>
+              </div>
+            </div>
+            <div class="team__meta">
+              <span class="badge" [class.badge--primary]="e.rol === 'DUENO'">
+                {{ e.rol === 'DUENO' ? 'Dueño' : 'Empleado' }}
+              </span>
+              @if (e.rol !== 'DUENO' && e.idUsuario !== usuarioActualId) {
+                <button
+                  type="button"
+                  class="btn btn--danger btn--sm"
+                  (click)="quitar(e)"
+                  [disabled]="quitandoId() === e.idUsuario"
+                >
+                  {{ quitandoId() === e.idUsuario ? '…' : 'Quitar' }}
+                </button>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>

@@ -1,0 +1,49 @@
+<div class="auth">
+  <div class="auth__card">
+    <div class="auth__brand">
+      <span aria-hidden="true">◧</span> SmartBusiness<span>IA</span>
+    </div>
+    <h1>Crear cuenta</h1>
+    <p class="muted">Regístrate como dueño y administra tus negocios.</p>
+
+    @if (errorMsg()) {
+      <p class="field-error" role="alert" style="margin-bottom: 1rem">{{ errorMsg() }}</p>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field" [class.field--error]="form.controls.nombre.touched && form.controls.nombre.invalid">
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" type="text" class="input" formControlName="nombre" autocomplete="name" required />
+        @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+          <span class="field-error">Ingresa tu nombre.</span>
+        }
+      </div>
+
+      <div class="field" [class.field--error]="form.controls.email.touched && form.controls.email.invalid">
+        <label for="email">Correo electrónico</label>
+        <input id="email" type="email" class="input" formControlName="email" autocomplete="email" inputmode="email" required />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field-error">Ingresa un correo válido.</span>
+        }
+      </div>
+
+      <div class="field" [class.field--error]="form.controls.password.touched && form.controls.password.invalid">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" class="input" formControlName="password" autocomplete="new-password" required />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field-error">Mínimo 8 caracteres.</span>
+        } @else {
+          <span class="text-faint" style="font-size: 0.82rem">Usa al menos 8 caracteres.</span>
+        }
+      </div>
+
+      <button type="submit" class="btn btn--block" [disabled]="loading()">
+        {{ loading() ? 'Creando…' : 'Crear cuenta' }}
+      </button>
+    </form>
+
+    <p class="auth__alt">
+      ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 780px;
+}
+
+.extra {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem 1.2rem;
+  margin: 0;
+}
+.extra legend {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-text-soft);
+  padding-inline: 0.4rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding-top: 1.4rem;
+}
+.check input {
+  width: 18px;
+  height: 18px;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}

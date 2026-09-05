@@ -1,0 +1,39 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.check input {
+  width: 18px;
+  height: 18px;
+}
+
+.row-sub {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--c-text-faint);
+  font-weight: 400;
+  white-space: normal;
+  max-width: 32ch;
+}
+
+td.actions {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+table.data td .badge {
+  margin-bottom: 0.15rem;
+}

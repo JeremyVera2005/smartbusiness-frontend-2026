@@ -1,0 +1,114 @@
+<div class="page-head">
+  <div>
+    <h1>Inventario</h1>
+    <p>Registra entradas, salidas y ajustes. Cada movimiento queda auditado.</p>
+  </div>
+</div>
+
+@if (loading()) {
+  <app-spinner label="Cargando…" />
+} @else if (!productos().length) {
+  <app-empty-state
+    icon="📦"
+    title="No hay productos"
+    message="Primero agrega productos al catálogo para poder mover su stock."
+  >
+    <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+  </app-empty-state>
+} @else {
+  <div class="grid-2">
+    <form class="card form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field" [class.field--error]="form.controls.idProducto.touched && form.controls.idProducto.invalid">
+        <label for="prod">Producto *</label>
+        <select id="prod" class="select" formControlName="idProducto" (change)="onProductoChange()" required>
+          <option [ngValue]="null" disabled>Selecciona un producto…</option>
+          @for (p of productos(); track p.idProducto) {
+            <option [ngValue]="p.idProducto">{{ p.nombre }} (stock {{ p.stockActual }})</option>
+          }
+        </select>
+        @if (form.controls.idProducto.touched && form.controls.idProducto.invalid) {
+          <span class="field-error">Selecciona un producto.</span>
+        }
+      </div>
+
+      <div class="field">
+        <span class="lbl">Tipo de movimiento *</span>
+        <div class="radio-row" role="radiogroup" aria-label="Tipo de movimiento">
+          @for (t of tipos; track t.value) {
+            <label class="radio-card" [class.is-checked]="form.controls.tipoMovimiento.value === t.value">
+              <input type="radio" [value]="t.value" formControlName="tipoMovimiento" />
+              <strong>{{ t.label }}</strong>
+              <span class="text-faint">{{ t.help }}</span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <div class="field" [class.field--error]="form.controls.cantidad.touched && form.controls.cantidad.invalid">
+        <label for="cant">
+          {{ form.controls.tipoMovimiento.value === 'AJUSTE' ? 'Stock final *' : 'Cantidad *' }}
+        </label>
+        <input id="cant" type="number" min="1" step="1" class="input" formControlName="cantidad" required />
+        @if (form.controls.cantidad.touched && form.controls.cantidad.invalid) {
+          <span class="field-error">Ingresa un número mayor a 0.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="motivo">Motivo</label>
+        <input id="motivo" type="text" class="input" formControlName="motivo" placeholder="Ej: compra a proveedor, merma, conteo físico…" />
+      </div>
+
+      @if (productoSel()) {
+        <p class="hint">Stock actual de <strong>{{ productoSel()?.nombre }}</strong>: {{ productoSel()?.stockActual }}</p>
+      }
+
+      <button type="submit" class="btn" [disabled]="saving()">
+        {{ saving() ? 'Registrando…' : 'Registrar movimiento' }}
+      </button>
+    </form>
+
+    <section class="card">
+      <h2>Historial del producto</h2>
+      @if (!form.controls.idProducto.value) {
+        <p class="muted">Selecciona un producto para ver su historial de movimientos.</p>
+      } @else if (cargandoHistorial()) {
+        <app-spinner label="Cargando historial…" [showLabel]="false" />
+      } @else if (!historial().length) {
+        <p class="muted">Este producto aún no tiene movimientos registrados.</p>
+      } @else {
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Tipo</th>
+                <th scope="col" class="num">Cantidad</th>
+                <th scope="col" class="num">Stock resultante</th>
+                <th scope="col">Motivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (m of historial(); track m.idMovimiento) {
+                <tr>
+                  <td>{{ m.fechaMovimiento | date: 'dd/MM/yy HH:mm' }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [class.badge--success]="m.tipoMovimiento === 'ENTRADA'"
+                      [class.badge--danger]="m.tipoMovimiento === 'SALIDA'"
+                      [class.badge--info]="m.tipoMovimiento === 'AJUSTE'"
+                    >{{ tipoLabel(m.tipoMovimiento) }}</span>
+                  </td>
+                  <td class="num">{{ m.cantidad | number }}</td>
+                  <td class="num">{{ m.stockResultante | number }}</td>
+                  <td>{{ m.motivo || '—' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </div>
+}

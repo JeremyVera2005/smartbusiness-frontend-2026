@@ -1,0 +1,67 @@
+.mini-top {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+}
+.mini-top__inner {
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  font-weight: 750;
+}
+.brand span {
+  color: var(--c-primary);
+}
+
+.form-page {
+  padding-block: clamp(1.5rem, 5vw, 3rem);
+  max-width: 960px;
+}
+
+.layout {
+  display: grid;
+  gap: 1.25rem;
+  align-items: start;
+  grid-template-columns: 1fr;
+}
+
+form.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+form.card .btn {
+  align-self: start;
+}
+
+.preview h2 {
+  font-size: 1rem;
+}
+.preview h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-text-soft);
+  margin-top: 1rem;
+}
+.chips {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.preview p {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 820px) {
+  .layout {
+    grid-template-columns: 1fr 260px;
+  }
+}

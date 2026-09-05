@@ -1,0 +1,94 @@
+<div class="page-head">
+  <div>
+    <h1>{{ editando() ? 'Editar producto' : 'Nuevo producto' }}</h1>
+    <p>Los campos marcados con * son obligatorios.</p>
+  </div>
+  <a routerLink="/app/productos" class="btn btn--ghost btn--sm">← Volver</a>
+</div>
+
+@if (loading()) {
+  <app-spinner label="Cargando…" />
+} @else {
+  <form class="card form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field" [class.field--error]="form.controls.nombre.touched && form.controls.nombre.invalid">
+      <label for="nombre">Nombre *</label>
+      <input id="nombre" type="text" class="input" formControlName="nombre" required />
+      @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+        <span class="field-error">El nombre es obligatorio.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" class="textarea" formControlName="descripcion"></textarea>
+    </div>
+
+    <div class="form-grid">
+      <div class="field" [class.field--error]="form.controls.precioVenta.touched && form.controls.precioVenta.invalid">
+        <label for="precioVenta">Precio de venta (S/) *</label>
+        <input id="precioVenta" type="number" min="0" step="0.01" class="input" formControlName="precioVenta" required />
+        @if (form.controls.precioVenta.touched && form.controls.precioVenta.invalid) {
+          <span class="field-error">Ingresa un precio válido.</span>
+        }
+      </div>
+      <div class="field">
+        <label for="precioCompra">Precio de compra (S/)</label>
+        <input id="precioCompra" type="number" min="0" step="0.01" class="input" formControlName="precioCompra" />
+      </div>
+      <div class="field" [class.field--error]="form.controls.stockActual.touched && form.controls.stockActual.invalid">
+        <label for="stockActual">Stock actual *</label>
+        <input id="stockActual" type="number" min="0" step="1" class="input" formControlName="stockActual" required />
+        @if (form.controls.stockActual.touched && form.controls.stockActual.invalid) {
+          <span class="field-error">Ingresa un stock válido.</span>
+        }
+      </div>
+      <div class="field">
+        <label for="stockMinimo">Stock mínimo</label>
+        <input id="stockMinimo" type="number" min="0" step="1" class="input" formControlName="stockMinimo" />
+      </div>
+      <div class="field">
+        <label for="categoria">Categoría</label>
+        <input id="categoria" type="text" class="input" formControlName="categoria" autocomplete="off" />
+      </div>
+    </div>
+
+    @if (campos().length) {
+      <fieldset class="extra" formGroupName="atributosExtra">
+        <legend>Datos específicos del rubro</legend>
+        <div class="form-grid">
+          @for (campo of campos(); track campo.nombre) {
+            <div class="field">
+              @switch (campo.tipo) {
+                @case ('boolean') {
+                  <label class="check">
+                    <input type="checkbox" [formControlName]="campo.nombre" />
+                    {{ campo.label }}
+                  </label>
+                }
+                @case ('date') {
+                  <label [for]="'x-' + campo.nombre">{{ campo.label }}</label>
+                  <input [id]="'x-' + campo.nombre" type="date" class="input" [formControlName]="campo.nombre" />
+                }
+                @case ('number') {
+                  <label [for]="'x-' + campo.nombre">{{ campo.label }}</label>
+                  <input [id]="'x-' + campo.nombre" type="number" step="any" class="input" [formControlName]="campo.nombre" />
+                }
+                @default {
+                  <label [for]="'x-' + campo.nombre">{{ campo.label }}</label>
+                  <input [id]="'x-' + campo.nombre" type="text" class="input" [formControlName]="campo.nombre" />
+                }
+              }
+            </div>
+          }
+        </div>
+      </fieldset>
+    }
+
+    <div class="form-actions">
+      <button type="submit" class="btn" [disabled]="saving()">
+        {{ saving() ? 'Guardando…' : editando() ? 'Guardar cambios' : 'Crear producto' }}
+      </button>
+      <a routerLink="/app/productos" class="btn btn--ghost">Cancelar</a>
+    </div>
+  </form>
+}

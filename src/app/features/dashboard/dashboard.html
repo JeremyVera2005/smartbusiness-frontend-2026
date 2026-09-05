@@ -1,0 +1,104 @@
+<div class="page-head">
+  <div>
+    <h1>Panel de {{ negocio()?.nombre }}</h1>
+    <p>Resumen de hoy y alertas inteligentes.</p>
+  </div>
+  <a routerLink="/app/ventas/nueva" class="btn">+ Registrar venta</a>
+</div>
+
+@if (loading()) {
+  <app-spinner label="Cargando panel…" />
+} @else {
+  <section class="kpis" aria-label="Indicadores">
+    <div class="kpi card">
+      <span class="kpi__label">Ingresos de hoy</span>
+      <strong class="kpi__value">{{ ingresosHoy() | money }}</strong>
+      <span class="text-faint">{{ ventasHoy().length }} venta(s) hoy</span>
+    </div>
+    <div class="kpi card">
+      <span class="kpi__label">Productos activos</span>
+      <strong class="kpi__value">{{ totalProductos() | number }}</strong>
+      <a routerLink="/app/productos" class="kpi__link">Ver catálogo →</a>
+    </div>
+    <div class="kpi card" [class.kpi--warn]="stockBajo() > 0">
+      <span class="kpi__label">Stock bajo</span>
+      <strong class="kpi__value">{{ stockBajo() | number }}</strong>
+      <span class="text-faint">productos en o bajo el mínimo</span>
+    </div>
+    <div class="kpi card">
+      <span class="kpi__label">Ventas totales</span>
+      <strong class="kpi__value">{{ ventas().length | number }}</strong>
+      <a routerLink="/app/ventas" class="kpi__link">Ver historial →</a>
+    </div>
+  </section>
+
+  <div class="two-col">
+    <section class="card" aria-labelledby="al-stock">
+      <div class="sec-head">
+        <h2 id="al-stock">⚠️ Riesgo de quiebre de stock</h2>
+        <span class="badge">{{ alertasStock().length }}</span>
+      </div>
+      @if (!alertasStock().length) {
+        <p class="muted">Sin riesgos detectados. Tu inventario cubre la demanda estimada.</p>
+      } @else {
+        <ul class="alert-list">
+          @for (a of alertasStock(); track a.idProducto) {
+            <li>
+              <div>
+                <strong>{{ a.nombreProducto }}</strong>
+                <span class="text-faint">
+                  Stock {{ a.stockActual }} · ~{{ a.diasRestantesEstimados | number: '1.0-1' }} días restantes
+                </span>
+              </div>
+              <span
+                class="badge"
+                [class.badge--danger]="a.nivel === 'CRITICO'"
+                [class.badge--warning]="a.nivel === 'ALERTA'"
+              >{{ a.nivel }}</span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    <section class="card" aria-labelledby="al-dem">
+      <div class="sec-head">
+        <h2 id="al-dem">📈 Cambios de demanda</h2>
+        <span class="badge">{{ alertasDemanda().length }}</span>
+      </div>
+      @if (!alertasDemanda().length) {
+        <p class="muted">Sin variaciones fuertes entre esta semana y la anterior.</p>
+      } @else {
+        <ul class="alert-list">
+          @for (a of alertasDemanda(); track a.idProducto) {
+            <li>
+              <div>
+                <strong>{{ a.nombreProducto }}</strong>
+                <span class="text-faint">
+                  {{ a.unidadesSemanaAnterior }} → {{ a.unidadesSemanaActual }} uds/semana
+                </span>
+              </div>
+              <span
+                class="badge"
+                [class.badge--success]="a.tipo === 'ALTA_DEMANDA'"
+                [class.badge--danger]="a.tipo === 'CAIDA_VENTAS'"
+              >
+                {{ a.variacionPorcentual > 0 ? '+' : '' }}{{ a.variacionPorcentual | number: '1.0-0' }}%
+              </span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Accesos rápidos</h2>
+    <div class="quick">
+      <a routerLink="/app/productos/nuevo" class="btn btn--subtle">Nuevo producto</a>
+      <a routerLink="/app/inventario" class="btn btn--subtle">Registrar movimiento</a>
+      <a routerLink="/app/ventas/nueva" class="btn btn--subtle">Nueva venta</a>
+      <a routerLink="/app/asistente" class="btn btn--subtle">Preguntar al asistente</a>
+    </div>
+  </section>
+}

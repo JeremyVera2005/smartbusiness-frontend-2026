@@ -1,0 +1,93 @@
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<div class="shell" [class.shell--drawer-open]="drawerOpen()">
+  <!-- Sidebar / Drawer -->
+  <aside class="sidebar" [attr.aria-hidden]="null">
+    <div class="brand">
+      <span class="brand__mark" aria-hidden="true">◧</span>
+      <span class="brand__name">SmartBusiness<span>IA</span></span>
+    </div>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <ul>
+        @for (item of nav(); track item.link) {
+          <li>
+            <a
+              [routerLink]="item.link"
+              routerLinkActive="is-active"
+              [routerLinkActiveOptions]="{ exact: false }"
+              (click)="closeDrawer()"
+            >
+              <span class="nav__icon" aria-hidden="true">{{ item.icon }}</span>
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="sidebar__foot">
+      <a routerLink="/negocios" (click)="cambiarNegocio(); closeDrawer()" class="switch-biz">
+        ⇄ Cambiar de negocio
+      </a>
+    </div>
+  </aside>
+
+  <!-- Backdrop (solo móvil con drawer abierto) -->
+  <button
+    type="button"
+    class="backdrop"
+    aria-label="Cerrar menú"
+    (click)="closeDrawer()"
+  ></button>
+
+  <!-- Área principal -->
+  <div class="main">
+    <header class="topbar">
+      <button
+        type="button"
+        class="icon-btn hamburger"
+        (click)="toggleDrawer()"
+        [attr.aria-expanded]="drawerOpen()"
+        aria-label="Abrir menú de navegación"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="topbar__biz">
+        <strong>{{ negocio()?.nombre }}</strong>
+        <span class="badge badge--primary">{{ tipoLabel() }}</span>
+        @if (negocio()?.rolUsuario === 'DUENO') {
+          <span class="badge">Dueño</span>
+        } @else {
+          <span class="badge">Empleado</span>
+        }
+      </div>
+
+      <div class="topbar__user">
+        <button
+          type="button"
+          class="user-btn"
+          (click)="toggleUserMenu()"
+          [attr.aria-expanded]="userMenuOpen()"
+        >
+          <span class="avatar" aria-hidden="true">{{ (usuario()?.nombre || '?')[0] }}</span>
+          <span class="user-btn__name">{{ usuario()?.nombre }}</span>
+          <span aria-hidden="true">▾</span>
+        </button>
+        @if (userMenuOpen()) {
+          <div class="user-menu" role="menu">
+            <p class="user-menu__email">{{ usuario()?.email }}</p>
+            <button type="button" role="menuitem" (click)="logout()">Cerrar sesión</button>
+          </div>
+        }
+      </div>
+    </header>
+
+    <main id="contenido" class="content" tabindex="-1">
+      <div class="container">
+        <router-outlet />
+      </div>
+    </main>
+  </div>
+</div>

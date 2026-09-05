@@ -1,0 +1,88 @@
+<div class="page-head">
+  <div>
+    <h1>Productos</h1>
+    <p>Catálogo del negocio y control de stock.</p>
+  </div>
+  <a routerLink="/app/productos/nuevo" class="btn">+ Nuevo producto</a>
+</div>
+
+@if (loading()) {
+  <app-spinner label="Cargando productos…" />
+} @else if (!productos().length) {
+  <app-empty-state
+    icon="📦"
+    title="Tu catálogo está vacío"
+    message="Agrega productos para empezar a registrar ventas y movimientos de inventario."
+  >
+    <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+  </app-empty-state>
+} @else {
+  <div class="toolbar card card--tight">
+    <div class="field" style="flex: 1">
+      <label for="q" class="visually-hidden">Buscar producto</label>
+      <input
+        id="q"
+        type="search"
+        class="input"
+        placeholder="Buscar por nombre o categoría…"
+        [ngModel]="busqueda()"
+        (ngModelChange)="busqueda.set($event)"
+      />
+    </div>
+    <label class="check">
+      <input type="checkbox" [ngModel]="soloStockBajo()" (ngModelChange)="soloStockBajo.set($event)" />
+      Solo stock bajo
+    </label>
+  </div>
+
+  @if (!filtrados().length) {
+    <p class="muted" style="padding: 1rem 0">Ningún producto coincide con el filtro.</p>
+  } @else {
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th scope="col">Producto</th>
+            <th scope="col">Categoría</th>
+            <th scope="col" class="num">Precio venta</th>
+            <th scope="col" class="num">Stock</th>
+            <th scope="col"><span class="visually-hidden">Acciones</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of filtrados(); track p.idProducto) {
+            <tr>
+              <td>
+                <strong>{{ p.nombre }}</strong>
+                @if (p.descripcion) {
+                  <span class="row-sub">{{ p.descripcion }}</span>
+                }
+              </td>
+              <td>{{ p.categoria || '—' }}</td>
+              <td class="num">{{ p.precioVenta | money }}</td>
+              <td class="num">
+                <span class="badge" [class.badge--danger]="esStockBajo(p)" [class.badge--success]="!esStockBajo(p)">
+                  {{ p.stockActual | number }}
+                </span>
+                @if ((p.stockMinimo ?? 0) > 0) {
+                  <span class="row-sub">mín. {{ p.stockMinimo }}</span>
+                }
+              </td>
+              <td class="actions">
+                <a [routerLink]="['/app/productos', p.idProducto, 'editar']" class="btn btn--ghost btn--sm">Editar</a>
+                <button
+                  type="button"
+                  class="btn btn--danger btn--sm"
+                  (click)="eliminar(p)"
+                  [disabled]="eliminandoId() === p.idProducto"
+                >
+                  {{ eliminandoId() === p.idProducto ? '…' : 'Quitar' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+}

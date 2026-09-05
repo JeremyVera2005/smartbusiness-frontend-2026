@@ -1,0 +1,64 @@
+<div class="page-head">
+  <div>
+    <h1>Ventas</h1>
+    <p>Historial de ventas registradas en este negocio.</p>
+  </div>
+  <a routerLink="/app/ventas/nueva" class="btn">+ Nueva venta</a>
+</div>
+
+@if (loading()) {
+  <app-spinner label="Cargando ventas…" />
+} @else if (!ventas().length) {
+  <app-empty-state
+    icon="🧾"
+    title="Aún no hay ventas"
+    message="Registra tu primera venta para empezar a construir el historial y alimentar las alertas de demanda."
+  >
+    <a routerLink="/app/ventas/nueva" class="btn">Registrar venta</a>
+  </app-empty-state>
+} @else {
+  <div class="summary card card--tight">
+    <div><span class="muted">Ventas</span><strong>{{ ventas().length | number }}</strong></div>
+    <div><span class="muted">Ingresos acumulados</span><strong>{{ totalGeneral() | money }}</strong></div>
+  </div>
+
+  <ul class="ventas">
+    @for (v of ventas(); track v.idVenta) {
+      <li class="card venta">
+        <button type="button" class="venta__head" (click)="toggle(v.idVenta)" [attr.aria-expanded]="expandida() === v.idVenta">
+          <div>
+            <strong>Venta #{{ v.idVenta }}</strong>
+            <span class="text-faint">{{ v.fechaVenta | date: 'dd/MM/yyyy HH:mm' }} · {{ v.detalles.length }} producto(s)</span>
+          </div>
+          <span class="venta__total">{{ v.total | money }}</span>
+          <span class="chev" aria-hidden="true">{{ expandida() === v.idVenta ? '▲' : '▼' }}</span>
+        </button>
+
+        @if (expandida() === v.idVenta) {
+          <div class="table-wrap">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th scope="col">Producto</th>
+                  <th scope="col" class="num">Cantidad</th>
+                  <th scope="col" class="num">P. unitario</th>
+                  <th scope="col" class="num">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (d of v.detalles; track d.idProducto) {
+                  <tr>
+                    <td>{{ nombreProducto(d.idProducto) }}</td>
+                    <td class="num">{{ d.cantidad | number }}</td>
+                    <td class="num">{{ d.precioUnitario | money }}</td>
+                    <td class="num">{{ d.subtotal | money }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </li>
+    }
+  </ul>
+}

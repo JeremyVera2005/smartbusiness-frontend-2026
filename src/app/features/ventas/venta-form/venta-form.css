@@ -1,0 +1,137 @@
+.pos {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .pos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 1180px) {
+  .pos {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+
+.catalogo .prod-list,
+.carrito .cart-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.prod-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--c-border);
+}
+.prod-list li:last-child {
+  border-bottom: 0;
+}
+.prod-list strong,
+.cart-line__info strong {
+  display: block;
+  font-size: 0.95rem;
+}
+.prod-list .text-faint {
+  font-size: 0.82rem;
+}
+
+.carrito h2 {
+  font-size: 1.05rem;
+}
+
+.cart-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'info remove'
+    'qty sub';
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--c-border);
+}
+.cart-line__info {
+  grid-area: info;
+  min-width: 0;
+}
+.cart-line__info .text-faint {
+  font-size: 0.8rem;
+}
+.qty {
+  grid-area: qty;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.qty__btn {
+  border: 0;
+  background: var(--c-surface-2);
+  width: 34px;
+  height: 34px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.qty__btn:hover {
+  background: var(--c-border);
+}
+.qty__input {
+  width: 46px;
+  height: 34px;
+  border: 0;
+  border-inline: 1px solid var(--c-border);
+  text-align: center;
+  background: var(--c-surface);
+  -moz-appearance: textfield;
+}
+.qty__input::-webkit-outer-spin-button,
+.qty__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cart-line__sub {
+  grid-area: sub;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.link-danger {
+  grid-area: remove;
+  border: 0;
+  background: transparent;
+  color: var(--c-danger);
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border-radius: 6px;
+}
+.link-danger:hover {
+  background: var(--c-danger-soft);
+}
+
+.cart-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 1rem 0;
+  font-size: 1.05rem;
+}
+.cart-total strong {
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 560px) {
+  .cart-list li {
+    grid-template-columns: 1fr auto auto auto;
+    grid-template-areas: 'info qty sub remove';
+  }
+}
