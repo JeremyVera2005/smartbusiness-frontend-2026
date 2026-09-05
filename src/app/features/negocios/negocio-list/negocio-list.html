@@ -12,7 +12,7 @@
       <p>Hola {{ usuario()?.nombre }}, elige un negocio para gestionarlo.</p>
     </div>
     @if (hayNegocios()) {
-      <a routerLink="/negocios/nuevo" class="btn">+ Nuevo negocio</a>
+      <a routerLink="/negocios/nuevo" class="btn btn--secondary btn--pill">+ Nuevo negocio</a>
     }
   </div>
 
@@ -43,7 +43,7 @@
               <dd>{{ n.rolUsuario === 'DUENO' ? 'Dueño' : 'Empleado' }}</dd>
             </div>
           </dl>
-          <button type="button" class="btn btn--block" (click)="entrar(n)">
+          <button type="button" class="btn btn--block btn--pill" (click)="entrar(n)">
             Entrar →
           </button>
         </li>

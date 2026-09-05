@@ -1,54 +1,86 @@
 <div class="auth">
-  <div class="auth__card">
-    <div class="auth__brand">
-      <span aria-hidden="true">◧</span> SmartBusiness<span>IA</span>
+  <div class="auth__form-side">
+    <div class="auth__card">
+      <div class="auth__brand">
+        <span aria-hidden="true">◧</span> SmartBusiness<span>IA</span>
+      </div>
+      <h1>Inicia sesión</h1>
+      <p class="muted">Ingresa a tu cuenta para continuar.</p>
+
+      @if (errorMsg()) {
+        <p class="field-error" role="alert" style="margin-bottom: 1rem; text-align: center">{{ errorMsg() }}</p>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field field--icon" [class.field--error]="form.controls.email.touched && form.controls.email.invalid">
+          <label for="email">Correo electrónico</label>
+          <span class="field-icon" aria-hidden="true">✉</span>
+          <input
+            id="email"
+            type="email"
+            class="input"
+            formControlName="email"
+            autocomplete="email"
+            inputmode="email"
+            placeholder="nombre@correo.com"
+            required
+          />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <span class="field-error">Ingresa un correo válido.</span>
+          }
+        </div>
+
+        <div class="field field--icon" [class.field--error]="form.controls.password.touched && form.controls.password.invalid">
+          <label for="password">Contraseña</label>
+          <span class="field-icon" aria-hidden="true">🔒</span>
+          <input
+            id="password"
+            [type]="showPassword() ? 'text' : 'password'"
+            class="input"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="Ingresa tu contraseña"
+            required
+          />
+          <button
+            type="button"
+            class="field-toggle"
+            (click)="toggleShowPassword()"
+            [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            {{ showPassword() ? '🙈' : '👁' }}
+          </button>
+          @if (form.controls.password.touched && form.controls.password.invalid) {
+            <span class="field-error">Ingresa tu contraseña.</span>
+          }
+        </div>
+
+        <button type="submit" class="btn btn--block" [disabled]="loading()">
+          {{ loading() ? 'Ingresando…' : 'Ingresar' }}
+        </button>
+      </form>
+
+      <p class="auth__alt">
+        ¿No tienes cuenta? <a routerLink="/registro">Regístrate</a>
+      </p>
     </div>
-    <h1>Iniciar sesión</h1>
-    <p class="muted">Ingresa a tu panel de gestión.</p>
-
-    @if (errorMsg()) {
-      <p class="field-error" role="alert" style="margin-bottom: 1rem">{{ errorMsg() }}</p>
-    }
-
-    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-      <div class="field" [class.field--error]="form.controls.email.touched && form.controls.email.invalid">
-        <label for="email">Correo electrónico</label>
-        <input
-          id="email"
-          type="email"
-          class="input"
-          formControlName="email"
-          autocomplete="email"
-          inputmode="email"
-          required
-        />
-        @if (form.controls.email.touched && form.controls.email.invalid) {
-          <span class="field-error">Ingresa un correo válido.</span>
-        }
-      </div>
-
-      <div class="field" [class.field--error]="form.controls.password.touched && form.controls.password.invalid">
-        <label for="password">Contraseña</label>
-        <input
-          id="password"
-          type="password"
-          class="input"
-          formControlName="password"
-          autocomplete="current-password"
-          required
-        />
-        @if (form.controls.password.touched && form.controls.password.invalid) {
-          <span class="field-error">Ingresa tu contraseña.</span>
-        }
-      </div>
-
-      <button type="submit" class="btn btn--block" [disabled]="loading()">
-        {{ loading() ? 'Ingresando…' : 'Ingresar' }}
-      </button>
-    </form>
-
-    <p class="auth__alt">
-      ¿No tienes cuenta? <a routerLink="/registro">Crea una gratis</a>
-    </p>
   </div>
+
+  <aside class="auth__brand-side" aria-hidden="true">
+    <span class="auth__blob auth__blob--1"></span>
+    <span class="auth__blob auth__blob--2"></span>
+    <span class="auth__blob auth__blob--3"></span>
+    <div class="auth__brand-content">
+      <h2>Deja que tus datos trabajen para ti.</h2>
+      <p>
+        Toma el control absoluto de tus ventas, stock diario y ganancias brutas
+        con el respaldo de alertas automáticas generadas por nuestra IA.
+      </p>
+      <div class="auth__brand-tags">
+        <span>Bodegas</span>
+        <span>Ferreterías</span>
+        <span>Farmacias</span>
+      </div>
+    </div>
+  </aside>
 </div>

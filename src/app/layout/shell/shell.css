@@ -212,13 +212,24 @@
   font-size: 0.85rem;
   text-transform: uppercase;
 }
+.user-btn__id {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.25;
+  max-width: 26vw;
+}
 .user-btn__name {
   font-weight: 600;
-  font-size: 0.9rem;
-  max-width: 26vw;
+  font-size: 0.88rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 100%;
+}
+.user-btn__role {
+  font-size: 0.72rem;
+  color: var(--c-text-faint);
 }
 .user-menu {
   position: absolute;

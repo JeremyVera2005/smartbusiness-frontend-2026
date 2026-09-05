@@ -4,36 +4,50 @@
    ========================================================================= */
 
 :root {
-  /* Paleta */
-  --c-bg: #f4f6fb;
+  /* Paleta — extraída de Figma "Proyecto Mype" (Design System Colors) */
+  --c-bg: #f5f6fb;
   --c-surface: #ffffff;
-  --c-surface-2: #f0f3f9;
-  --c-border: #dde3ee;
-  --c-text: #1b2436;
-  --c-text-soft: #56617a;
-  --c-text-faint: #8a93a8;
+  --c-surface-2: #eef0f9;
+  --c-border: #dde1f0;
+  --c-text: #171b34;
+  --c-text-soft: #565b7a;
+  --c-text-faint: #8790ac;
 
-  --c-primary: #2f5bea;
-  --c-primary-dark: #1f43b8;
-  --c-primary-soft: #e7edfd;
+  /* Color primario: ramp índigo-azul */
+  --c-primary-50: #eef0fd;
+  --c-primary-100: #dce1fb;
+  --c-primary-300: #a7b0f2;
+  --c-primary: #4f52d6;
+  --c-primary-dark: #3c3fb0;
+  --c-primary-deep: #1f2266;
+  --c-primary-soft: #eceeff;
   --c-primary-contrast: #ffffff;
 
-  --c-success: #17864c;
-  --c-success-soft: #e2f5ea;
-  --c-warning: #9a6400;
-  --c-warning-soft: #fbefd6;
-  --c-danger: #c02a2a;
-  --c-danger-soft: #fbe5e5;
-  --c-info: #1f6f8b;
-  --c-info-soft: #e2f1f5;
+  /* Color secundario: ramp esmeralda/teal */
+  --c-secondary: #12b76a;
+  --c-secondary-dark: #0c8a50;
+  --c-secondary-soft: #e1f9ee;
 
-  /* Radios / sombras / espaciado */
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 18px;
-  --shadow-sm: 0 1px 2px rgba(21, 33, 61, 0.06), 0 1px 3px rgba(21, 33, 61, 0.08);
-  --shadow-md: 0 4px 12px rgba(21, 33, 61, 0.08), 0 2px 4px rgba(21, 33, 61, 0.06);
-  --shadow-lg: 0 12px 32px rgba(21, 33, 61, 0.14);
+  /* Semánticos */
+  --c-success: #0c9d5c;
+  --c-success-soft: #e1f9ee;
+  --c-warning: #b45309;
+  --c-warning-soft: #fef3d6;
+  --c-danger: #dc2626;
+  --c-danger-soft: #fde3e3;
+  --c-info: #2563eb;
+  --c-info-soft: #e3ecfd;
+  /* "IA / Insight": morado propio del sistema para todo lo relacionado a IA */
+  --c-insight: #7c3aed;
+  --c-insight-soft: #efe6fd;
+
+  /* Radios / sombras / espaciado — cards y botones más redondeados */
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 1px 2px rgba(23, 27, 52, 0.05), 0 1px 3px rgba(23, 27, 52, 0.07);
+  --shadow-md: 0 4px 14px rgba(23, 27, 52, 0.08), 0 2px 4px rgba(23, 27, 52, 0.06);
+  --shadow-lg: 0 16px 40px rgba(23, 27, 52, 0.16);
 
   --sidebar-w: 250px;
   --topbar-h: 60px;
@@ -46,31 +60,41 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --c-bg: #10141f;
-    --c-surface: #1a2030;
-    --c-surface-2: #222a3d;
-    --c-border: #2f3852;
-    --c-text: #eef1f7;
-    --c-text-soft: #aab3c7;
-    --c-text-faint: #7d879e;
+    --c-bg: #10121f;
+    --c-surface: #191c30;
+    --c-surface-2: #212440;
+    --c-border: #323659;
+    --c-text: #eceefb;
+    --c-text-soft: #a8adce;
+    --c-text-faint: #767bab;
 
-    --c-primary: #6d92f7;
-    --c-primary-dark: #5479e6;
-    --c-primary-soft: #24304f;
-    --c-primary-contrast: #0d1220;
+    --c-primary-50: #1d2050;
+    --c-primary-100: #262a63;
+    --c-primary-300: #565bb0;
+    --c-primary: #8286ef;
+    --c-primary-dark: #a3a6f5;
+    --c-primary-deep: #dbdcfb;
+    --c-primary-soft: #262a63;
+    --c-primary-contrast: #12142a;
 
-    --c-success: #4ecb8b;
-    --c-success-soft: #17331f;
-    --c-warning: #eab558;
-    --c-warning-soft: #362b12;
-    --c-danger: #f07575;
-    --c-danger-soft: #3a1d1d;
-    --c-info: #63b6cf;
-    --c-info-soft: #16303a;
+    --c-secondary: #3ed393;
+    --c-secondary-dark: #6fe0ac;
+    --c-secondary-soft: #123527;
+
+    --c-success: #3ed393;
+    --c-success-soft: #123527;
+    --c-warning: #f0b859;
+    --c-warning-soft: #3a2a10;
+    --c-danger: #f0716f;
+    --c-danger-soft: #3d1e1e;
+    --c-info: #6c9bf7;
+    --c-info-soft: #1c2b4d;
+    --c-insight: #b18cf7;
+    --c-insight-soft: #2c2050;
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
     color-scheme: dark;
   }
 }
@@ -124,13 +148,29 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Escala tipográfica (Figma: Inter — H1 28/Bold, H2 20/SemiBold, H3 16/SemiBold) */
 h1,
 h2,
 h3,
 h4 {
-  line-height: 1.2;
-  font-weight: 650;
+  line-height: 1.25;
   color: var(--c-text);
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h3,
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 :focus-visible {
@@ -197,10 +237,10 @@ h4 {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.1rem;
-  min-height: 42px;
+  padding: 0.6rem 1.2rem;
+  min-height: 44px;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   background: var(--btn-bg);
   color: var(--btn-fg);
   font-weight: 600;
@@ -245,10 +285,22 @@ h4 {
   --btn-fg: #fff;
 }
 
+/* Verde secundario: acciones de "crear" (ej. "+ Nuevo negocio" en Figma) */
+.btn--secondary {
+  --btn-bg: var(--c-secondary);
+  --btn-fg: #fff;
+}
+
 .btn--sm {
   min-height: 34px;
-  padding: 0.35rem 0.7rem;
+  padding: 0.35rem 0.8rem;
   font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Botón "píldora" con flecha (ej. "Entrar →" en las tarjetas de negocio) */
+.btn--pill {
+  border-radius: 999px;
 }
 
 /* ------------------------------------------------------------------ Forms */
@@ -343,6 +395,17 @@ h4 {
 .badge--primary {
   background: var(--c-primary-soft);
   color: var(--c-primary-dark);
+}
+
+a.badge:hover {
+  text-decoration: none;
+  filter: brightness(0.96);
+}
+
+/* Morado "IA / Insight": todo lo generado o sugerido por el motor de IA */
+.badge--insight {
+  background: var(--c-insight-soft);
+  color: var(--c-insight);
 }
 
 /* ------------------------------------------------------------------ Table */

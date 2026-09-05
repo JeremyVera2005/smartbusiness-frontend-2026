@@ -44,7 +44,8 @@
   letter-spacing: 0.04em;
 }
 .msg__text {
-  background: var(--c-surface-2);
+  background: var(--c-insight-soft);
+  color: var(--c-text);
   padding: 0.7rem 0.9rem;
   border-radius: var(--radius);
   white-space: pre-wrap;

@@ -19,6 +19,7 @@ export class Register {
 
   protected readonly loading = signal(false);
   protected readonly errorMsg = signal<string | null>(null);
+  protected readonly showPassword = signal(false);
 
   protected readonly form = this.fb.nonNullable.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -50,5 +51,9 @@ export class Register {
         );
       },
     });
+  }
+
+  toggleShowPassword(): void {
+    this.showPassword.update((v) => !v);
   }
 }

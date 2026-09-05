@@ -13,22 +13,26 @@
     <div class="kpi card">
       <span class="kpi__label">Ingresos de hoy</span>
       <strong class="kpi__value">{{ ingresosHoy() | money }}</strong>
-      <span class="text-faint">{{ ventasHoy().length }} venta(s) hoy</span>
+      <span class="badge badge--success">{{ ventasHoy().length }} venta(s) hoy</span>
     </div>
     <div class="kpi card">
       <span class="kpi__label">Productos activos</span>
       <strong class="kpi__value">{{ totalProductos() | number }}</strong>
-      <a routerLink="/app/productos" class="kpi__link">Ver catálogo →</a>
+      <a routerLink="/app/productos" class="badge badge--info">Ver catálogo →</a>
     </div>
     <div class="kpi card" [class.kpi--warn]="stockBajo() > 0">
       <span class="kpi__label">Stock bajo</span>
       <strong class="kpi__value">{{ stockBajo() | number }}</strong>
-      <span class="text-faint">productos en o bajo el mínimo</span>
+      @if (stockBajo() > 0) {
+        <span class="badge badge--warning">Requieren atención</span>
+      } @else {
+        <span class="badge badge--success">Al día</span>
+      }
     </div>
     <div class="kpi card">
       <span class="kpi__label">Ventas totales</span>
       <strong class="kpi__value">{{ ventas().length | number }}</strong>
-      <a routerLink="/app/ventas" class="kpi__link">Ver historial →</a>
+      <a routerLink="/app/ventas" class="badge badge--primary">Ver historial →</a>
     </div>
   </section>
 
@@ -36,7 +40,7 @@
     <section class="card" aria-labelledby="al-stock">
       <div class="sec-head">
         <h2 id="al-stock">⚠️ Riesgo de quiebre de stock</h2>
-        <span class="badge">{{ alertasStock().length }}</span>
+        <span class="badge badge--insight" title="Generado por el motor de IA">✨ {{ alertasStock().length }}</span>
       </div>
       @if (!alertasStock().length) {
         <p class="muted">Sin riesgos detectados. Tu inventario cubre la demanda estimada.</p>
@@ -64,7 +68,7 @@
     <section class="card" aria-labelledby="al-dem">
       <div class="sec-head">
         <h2 id="al-dem">📈 Cambios de demanda</h2>
-        <span class="badge">{{ alertasDemanda().length }}</span>
+        <span class="badge badge--insight" title="Generado por el motor de IA">✨ {{ alertasDemanda().length }}</span>
       </div>
       @if (!alertasDemanda().length) {
         <p class="muted">Sin variaciones fuertes entre esta semana y la anterior.</p>

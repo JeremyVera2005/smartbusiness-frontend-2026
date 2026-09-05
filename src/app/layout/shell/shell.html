@@ -57,11 +57,6 @@
       <div class="topbar__biz">
         <strong>{{ negocio()?.nombre }}</strong>
         <span class="badge badge--primary">{{ tipoLabel() }}</span>
-        @if (negocio()?.rolUsuario === 'DUENO') {
-          <span class="badge">Dueño</span>
-        } @else {
-          <span class="badge">Empleado</span>
-        }
       </div>
 
       <div class="topbar__user">
@@ -72,7 +67,10 @@
           [attr.aria-expanded]="userMenuOpen()"
         >
           <span class="avatar" aria-hidden="true">{{ (usuario()?.nombre || '?')[0] }}</span>
-          <span class="user-btn__name">{{ usuario()?.nombre }}</span>
+          <span class="user-btn__id">
+            <span class="user-btn__name">{{ usuario()?.nombre }}</span>
+            <span class="user-btn__role">{{ negocio()?.rolUsuario === 'DUENO' ? 'Dueño' : 'Empleado' }}</span>
+          </span>
           <span aria-hidden="true">▾</span>
         </button>
         @if (userMenuOpen()) {
