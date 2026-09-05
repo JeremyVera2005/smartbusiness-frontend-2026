@@ -4,7 +4,7 @@
   <!-- Sidebar / Drawer -->
   <aside class="sidebar" [attr.aria-hidden]="null">
     <div class="brand">
-      <span class="brand__mark" aria-hidden="true">◧</span>
+      <ng-icon class="brand__mark" name="lucideStore" aria-hidden="true" />
       <span class="brand__name">SmartBusiness<span>IA</span></span>
     </div>
 
@@ -18,7 +18,7 @@
               [routerLinkActiveOptions]="{ exact: false }"
               (click)="closeDrawer()"
             >
-              <span class="nav__icon" aria-hidden="true">{{ item.icon }}</span>
+              <ng-icon class="nav__icon" [name]="item.icon" aria-hidden="true" />
               {{ item.label }}
             </a>
           </li>
@@ -28,7 +28,7 @@
 
     <div class="sidebar__foot">
       <a routerLink="/negocios" (click)="cambiarNegocio(); closeDrawer()" class="switch-biz">
-        ⇄ Cambiar de negocio
+        <ng-icon name="lucideArrowLeftRight" aria-hidden="true" /> Cambiar de negocio
       </a>
     </div>
   </aside>
@@ -71,12 +71,14 @@
             <span class="user-btn__name">{{ usuario()?.nombre }}</span>
             <span class="user-btn__role">{{ negocio()?.rolUsuario === 'DUENO' ? 'Dueño' : 'Empleado' }}</span>
           </span>
-          <span aria-hidden="true">▾</span>
+          <ng-icon name="lucideChevronDown" aria-hidden="true" />
         </button>
         @if (userMenuOpen()) {
           <div class="user-menu" role="menu">
             <p class="user-menu__email">{{ usuario()?.email }}</p>
-            <button type="button" role="menuitem" (click)="logout()">Cerrar sesión</button>
+            <button type="button" role="menuitem" (click)="logout()">
+              <ng-icon name="lucideLogOut" aria-hidden="true" /> Cerrar sesión
+            </button>
           </div>
         }
       </div>

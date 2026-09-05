@@ -1,0 +1,58 @@
+import {
+  lucideArrowLeft,
+  lucideArrowLeftRight,
+  lucideArrowRight,
+  lucideBot,
+  lucideChevronDown,
+  lucideChevronUp,
+  lucideEye,
+  lucideEyeOff,
+  lucideInbox,
+  lucideLayoutDashboard,
+  lucideLock,
+  lucideLogOut,
+  lucideMail,
+  lucideMinus,
+  lucidePackage,
+  lucidePlus,
+  lucideReceipt,
+  lucideRepeat,
+  lucideSparkles,
+  lucideStore,
+  lucideTrendingUp,
+  lucideTriangleAlert,
+  lucideUsers,
+  lucideX,
+} from '@ng-icons/lucide';
+
+/**
+ * Set único de íconos (Lucide) usado en toda la app en vez de emojis, para que
+ * se vean consistentes entre sistemas operativos y navegadores. Se registra
+ * una sola vez a nivel raíz (ver app.config.ts) con provideIcons().
+ */
+export const APP_ICONS = {
+  lucideArrowLeft,
+  lucideArrowLeftRight,
+  lucideArrowRight,
+  lucideBot,
+  lucideChevronDown,
+  lucideChevronUp,
+  lucideEye,
+  lucideEyeOff,
+  lucideInbox,
+  lucideLayoutDashboard,
+  lucideLock,
+  lucideLogOut,
+  lucideMail,
+  lucideMinus,
+  lucidePackage,
+  lucidePlus,
+  lucideReceipt,
+  lucideRepeat,
+  lucideSparkles,
+  lucideStore,
+  lucideTrendingUp,
+  lucideTriangleAlert,
+  lucideUsers,
+  lucideX,
+};

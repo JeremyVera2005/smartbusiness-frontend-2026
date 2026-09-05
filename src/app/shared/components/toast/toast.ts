@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
+import { NgIcon } from '@ng-icons/core';
 import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-toast',
+  imports: [NgIcon],
   template: `
     <div class="toast-region" role="region" aria-label="Notificaciones">
       @for (t of toast.toasts(); track t.id) {
@@ -10,7 +12,7 @@ import { ToastService } from '../../../core/services/toast.service';
           <span class="dot" aria-hidden="true"></span>
           <p>{{ t.text }}</p>
           <button type="button" class="close" (click)="toast.dismiss(t.id)" aria-label="Cerrar notificación">
-            ✕
+            <ng-icon name="lucideX" aria-hidden="true" />
           </button>
         </div>
       }
@@ -59,12 +61,13 @@ import { ToastService } from '../../../core/services/toast.service';
     .toast--warning { border-left: 4px solid var(--c-warning); }
     .toast--info { border-left: 4px solid var(--c-info); }
     .close {
+      display: inline-flex;
       border: 0;
       background: transparent;
       cursor: pointer;
       color: var(--c-text-faint);
-      font-size: 0.85rem;
-      padding: 0.15rem 0.3rem;
+      font-size: 0.9rem;
+      padding: 0.2rem;
       border-radius: 4px;
     }
     .close:hover {

@@ -73,11 +73,15 @@
   overflow: hidden;
 }
 .qty__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   background: var(--c-surface-2);
   width: 34px;
   height: 34px;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+  color: var(--c-text-soft);
   cursor: pointer;
 }
 .qty__btn:hover {
@@ -105,10 +109,11 @@
 }
 .link-danger {
   grid-area: remove;
+  display: inline-flex;
   border: 0;
   background: transparent;
   color: var(--c-danger);
-  font-size: 0.95rem;
+  font-size: 1rem;
   cursor: pointer;
   padding: 0.25rem 0.4rem;
   border-radius: 6px;

@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { catchError, forkJoin, of } from 'rxjs';
 import { ProductoService } from '../../core/services/producto.service';
 import { VentaService } from '../../core/services/venta.service';
@@ -12,7 +13,7 @@ import { MoneyPipe } from '../../shared/pipes/money.pipe';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DecimalPipe, MoneyPipe, Spinner],
+  imports: [RouterLink, DecimalPipe, MoneyPipe, Spinner, NgIcon],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })

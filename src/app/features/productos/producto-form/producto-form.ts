@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { ProductoService } from '../../../core/services/producto.service';
 import { NegocioService } from '../../../core/services/negocio.service';
 import { ToastService } from '../../../core/services/toast.service';
@@ -15,7 +16,7 @@ import { Spinner } from '../../../shared/components/spinner/spinner';
 
 @Component({
   selector: 'app-producto-form',
-  imports: [ReactiveFormsModule, RouterLink, Spinner],
+  imports: [ReactiveFormsModule, RouterLink, Spinner, NgIcon],
   templateUrl: './producto-form.html',
   styleUrl: './producto-form.css',
 })

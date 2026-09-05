@@ -10,7 +10,7 @@
   <app-spinner label="Cargando ventas…" />
 } @else if (!ventas().length) {
   <app-empty-state
-    icon="🧾"
+    icon="lucideReceipt"
     title="Aún no hay ventas"
     message="Registra tu primera venta para empezar a construir el historial y alimentar las alertas de demanda."
   >
@@ -31,7 +31,7 @@
             <span class="text-faint">{{ v.fechaVenta | date: 'dd/MM/yyyy HH:mm' }} · {{ v.detalles.length }} producto(s)</span>
           </div>
           <span class="venta__total">{{ v.total | money }}</span>
-          <span class="chev" aria-hidden="true">{{ expandida() === v.idVenta ? '▲' : '▼' }}</span>
+          <ng-icon class="chev" [name]="expandida() === v.idVenta ? 'lucideChevronUp' : 'lucideChevronDown'" aria-hidden="true" />
         </button>
 
         @if (expandida() === v.idVenta) {

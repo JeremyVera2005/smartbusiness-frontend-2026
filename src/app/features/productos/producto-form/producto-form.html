@@ -3,7 +3,9 @@
     <h1>{{ editando() ? 'Editar producto' : 'Nuevo producto' }}</h1>
     <p>Los campos marcados con * son obligatorios.</p>
   </div>
-  <a routerLink="/app/productos" class="btn btn--ghost btn--sm">← Volver</a>
+  <a routerLink="/app/productos" class="btn btn--ghost btn--sm">
+    <ng-icon name="lucideArrowLeft" aria-hidden="true" /> Volver
+  </a>
 </div>
 
 @if (loading()) {

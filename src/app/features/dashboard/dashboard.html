@@ -18,7 +18,9 @@
     <div class="kpi card">
       <span class="kpi__label">Productos activos</span>
       <strong class="kpi__value">{{ totalProductos() | number }}</strong>
-      <a routerLink="/app/productos" class="badge badge--info">Ver catálogo →</a>
+      <a routerLink="/app/productos" class="badge badge--info">
+        Ver catálogo <ng-icon name="lucideArrowRight" aria-hidden="true" />
+      </a>
     </div>
     <div class="kpi card" [class.kpi--warn]="stockBajo() > 0">
       <span class="kpi__label">Stock bajo</span>
@@ -32,15 +34,21 @@
     <div class="kpi card">
       <span class="kpi__label">Ventas totales</span>
       <strong class="kpi__value">{{ ventas().length | number }}</strong>
-      <a routerLink="/app/ventas" class="badge badge--primary">Ver historial →</a>
+      <a routerLink="/app/ventas" class="badge badge--primary">
+        Ver historial <ng-icon name="lucideArrowRight" aria-hidden="true" />
+      </a>
     </div>
   </section>
 
   <div class="two-col">
     <section class="card" aria-labelledby="al-stock">
       <div class="sec-head">
-        <h2 id="al-stock">⚠️ Riesgo de quiebre de stock</h2>
-        <span class="badge badge--insight" title="Generado por el motor de IA">✨ {{ alertasStock().length }}</span>
+        <h2 id="al-stock">
+          <ng-icon name="lucideTriangleAlert" aria-hidden="true" /> Riesgo de quiebre de stock
+        </h2>
+        <span class="badge badge--insight" title="Generado por el motor de IA">
+          <ng-icon name="lucideSparkles" aria-hidden="true" /> {{ alertasStock().length }}
+        </span>
       </div>
       @if (!alertasStock().length) {
         <p class="muted">Sin riesgos detectados. Tu inventario cubre la demanda estimada.</p>
@@ -67,8 +75,12 @@
 
     <section class="card" aria-labelledby="al-dem">
       <div class="sec-head">
-        <h2 id="al-dem">📈 Cambios de demanda</h2>
-        <span class="badge badge--insight" title="Generado por el motor de IA">✨ {{ alertasDemanda().length }}</span>
+        <h2 id="al-dem">
+          <ng-icon name="lucideTrendingUp" aria-hidden="true" /> Cambios de demanda
+        </h2>
+        <span class="badge badge--insight" title="Generado por el motor de IA">
+          <ng-icon name="lucideSparkles" aria-hidden="true" /> {{ alertasDemanda().length }}
+        </span>
       </div>
       @if (!alertasDemanda().length) {
         <p class="muted">Sin variaciones fuertes entre esta semana y la anterior.</p>

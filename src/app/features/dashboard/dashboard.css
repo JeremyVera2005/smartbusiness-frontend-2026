@@ -46,7 +46,13 @@
   margin-bottom: 0.85rem;
 }
 .sec-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   font-size: 1.05rem;
+}
+.sec-head h2 ng-icon {
+  color: var(--c-text-faint);
 }
 
 .alert-list {

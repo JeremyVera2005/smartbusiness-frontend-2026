@@ -298,7 +298,7 @@ h4 {
   border-radius: var(--radius-sm);
 }
 
-/* Botón "píldora" con flecha (ej. "Entrar →" en las tarjetas de negocio) */
+/* Botón "píldora" (ej. "Entrar" en las tarjetas de negocio) */
 .btn--pill {
   border-radius: 999px;
 }

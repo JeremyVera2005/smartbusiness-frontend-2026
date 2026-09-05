@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { catchError, forkJoin, of } from 'rxjs';
 import { VentaService } from '../../../core/services/venta.service';
 import { ProductoService } from '../../../core/services/producto.service';
@@ -11,7 +12,7 @@ import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 
 @Component({
   selector: 'app-venta-list',
-  imports: [RouterLink, DatePipe, DecimalPipe, MoneyPipe, Spinner, EmptyState],
+  imports: [RouterLink, DatePipe, DecimalPipe, MoneyPipe, Spinner, EmptyState, NgIcon],
   templateUrl: './venta-list.html',
   styleUrl: './venta-list.css',
 })

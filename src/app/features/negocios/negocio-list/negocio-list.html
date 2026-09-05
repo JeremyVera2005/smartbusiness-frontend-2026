@@ -1,6 +1,6 @@
 <header class="mini-top">
   <div class="mini-top__inner container">
-    <span class="brand"><span aria-hidden="true">◧</span> SmartBusiness<span>IA</span></span>
+    <span class="brand"><ng-icon name="lucideStore" aria-hidden="true" /> SmartBusiness<span>IA</span></span>
     <button type="button" class="btn btn--ghost btn--sm" (click)="logout()">Cerrar sesión</button>
   </div>
 </header>
@@ -20,7 +20,7 @@
     <app-spinner label="Cargando negocios…" />
   } @else if (!hayNegocios()) {
     <app-empty-state
-      icon="🏪"
+      icon="lucideStore"
       title="Aún no tienes negocios"
       message="Crea tu primer negocio para empezar a registrar productos, ventas y recibir alertas inteligentes."
     >
@@ -44,7 +44,7 @@
             </div>
           </dl>
           <button type="button" class="btn btn--block btn--pill" (click)="entrar(n)">
-            Entrar →
+            Entrar <ng-icon name="lucideArrowRight" aria-hidden="true" />
           </button>
         </li>
       }

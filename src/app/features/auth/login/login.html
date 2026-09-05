@@ -2,7 +2,7 @@
   <div class="auth__form-side">
     <div class="auth__card">
       <div class="auth__brand">
-        <span aria-hidden="true">◧</span> SmartBusiness<span>IA</span>
+        <ng-icon name="lucideStore" aria-hidden="true" /> SmartBusiness<span>IA</span>
       </div>
       <h1>Inicia sesión</h1>
       <p class="muted">Ingresa a tu cuenta para continuar.</p>
@@ -14,7 +14,7 @@
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="field field--icon" [class.field--error]="form.controls.email.touched && form.controls.email.invalid">
           <label for="email">Correo electrónico</label>
-          <span class="field-icon" aria-hidden="true">✉</span>
+          <ng-icon class="field-icon" name="lucideMail" aria-hidden="true" />
           <input
             id="email"
             type="email"
@@ -32,7 +32,7 @@
 
         <div class="field field--icon" [class.field--error]="form.controls.password.touched && form.controls.password.invalid">
           <label for="password">Contraseña</label>
-          <span class="field-icon" aria-hidden="true">🔒</span>
+          <ng-icon class="field-icon" name="lucideLock" aria-hidden="true" />
           <input
             id="password"
             [type]="showPassword() ? 'text' : 'password'"
@@ -48,7 +48,7 @@
             (click)="toggleShowPassword()"
             [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
           >
-            {{ showPassword() ? '🙈' : '👁' }}
+            <ng-icon [name]="showPassword() ? 'lucideEyeOff' : 'lucideEye'" aria-hidden="true" />
           </button>
           @if (form.controls.password.touched && form.controls.password.invalid) {
             <span class="field-error">Ingresa tu contraseña.</span>

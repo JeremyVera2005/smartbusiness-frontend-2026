@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { ProductoService } from '../../../core/services/producto.service';
 import { VentaService } from '../../../core/services/venta.service';
 import { ToastService } from '../../../core/services/toast.service';
@@ -16,7 +17,7 @@ interface LineaCarrito {
 
 @Component({
   selector: 'app-venta-form',
-  imports: [FormsModule, RouterLink, MoneyPipe, Spinner, EmptyState],
+  imports: [FormsModule, RouterLink, MoneyPipe, Spinner, EmptyState, NgIcon],
   templateUrl: './venta-form.html',
   styleUrl: './venta-form.css',
 })

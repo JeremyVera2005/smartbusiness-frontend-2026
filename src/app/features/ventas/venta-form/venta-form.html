@@ -3,14 +3,16 @@
     <h1>Nueva venta</h1>
     <p>Agrega productos al carrito y registra la venta. El stock se descuenta automáticamente.</p>
   </div>
-  <a routerLink="/app/ventas" class="btn btn--ghost btn--sm">← Volver</a>
+  <a routerLink="/app/ventas" class="btn btn--ghost btn--sm">
+    <ng-icon name="lucideArrowLeft" aria-hidden="true" /> Volver
+  </a>
 </div>
 
 @if (loading()) {
   <app-spinner label="Cargando productos…" />
 } @else if (!productos().length) {
   <app-empty-state
-    icon="🧾"
+    icon="lucideReceipt"
     title="No hay productos para vender"
     message="Agrega productos con stock disponible al catálogo."
   >
@@ -60,7 +62,9 @@
                 <span class="text-faint">{{ l.producto.precioVenta | money }} c/u</span>
               </div>
               <div class="qty">
-                <button type="button" class="qty__btn" (click)="cambiarCantidad(l.producto.idProducto, -1)" aria-label="Quitar una unidad">−</button>
+                <button type="button" class="qty__btn" (click)="cambiarCantidad(l.producto.idProducto, -1)" aria-label="Quitar una unidad">
+                  <ng-icon name="lucideMinus" aria-hidden="true" />
+                </button>
                 <input
                   type="number"
                   class="qty__input"
@@ -70,10 +74,14 @@
                   (ngModelChange)="fijarCantidad(l.producto.idProducto, $event)"
                   [attr.aria-label]="'Cantidad de ' + l.producto.nombre"
                 />
-                <button type="button" class="qty__btn" (click)="cambiarCantidad(l.producto.idProducto, 1)" aria-label="Agregar una unidad">+</button>
+                <button type="button" class="qty__btn" (click)="cambiarCantidad(l.producto.idProducto, 1)" aria-label="Agregar una unidad">
+                  <ng-icon name="lucidePlus" aria-hidden="true" />
+                </button>
               </div>
               <span class="cart-line__sub num">{{ l.producto.precioVenta * l.cantidad | money }}</span>
-              <button type="button" class="link-danger" (click)="quitar(l.producto.idProducto)" aria-label="Quitar del carrito">✕</button>
+              <button type="button" class="link-danger" (click)="quitar(l.producto.idProducto)" aria-label="Quitar del carrito">
+                <ng-icon name="lucideX" aria-hidden="true" />
+              </button>
             </li>
           }
         </ul>

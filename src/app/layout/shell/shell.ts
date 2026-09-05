@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { NegocioService } from '../../core/services/negocio.service';
 import { AuthService } from '../../core/services/auth.service';
 import { TIPOS_NEGOCIO } from '../../core/models';
@@ -12,17 +13,17 @@ interface NavItem {
 }
 
 const NAV: NavItem[] = [
-  { label: 'Panel', icon: '📊', link: '/app/dashboard' },
-  { label: 'Productos', icon: '📦', link: '/app/productos' },
-  { label: 'Inventario', icon: '🔁', link: '/app/inventario' },
-  { label: 'Ventas', icon: '🧾', link: '/app/ventas' },
-  { label: 'Personal', icon: '👥', link: '/app/empleados', soloDueno: true },
-  { label: 'Asistente IA', icon: '🤖', link: '/app/asistente' },
+  { label: 'Panel', icon: 'lucideLayoutDashboard', link: '/app/dashboard' },
+  { label: 'Productos', icon: 'lucidePackage', link: '/app/productos' },
+  { label: 'Inventario', icon: 'lucideRepeat', link: '/app/inventario' },
+  { label: 'Ventas', icon: 'lucideReceipt', link: '/app/ventas' },
+  { label: 'Personal', icon: 'lucideUsers', link: '/app/empleados', soloDueno: true },
+  { label: 'Asistente IA', icon: 'lucideBot', link: '/app/asistente' },
 ];
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIcon],
   templateUrl: './shell.html',
   styleUrl: './shell.css',
 })

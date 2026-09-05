@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { NegocioService } from '../../../core/services/negocio.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
@@ -14,7 +15,7 @@ import {
 
 @Component({
   selector: 'app-negocio-form',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, NgIcon],
   templateUrl: './negocio-form.html',
   styleUrl: './negocio-form.css',
 })
