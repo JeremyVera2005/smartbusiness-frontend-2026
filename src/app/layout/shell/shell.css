@@ -177,13 +177,17 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1 1 auto;
   min-width: 0;
 }
 .topbar__biz strong {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 40vw;
+  min-width: 0;
+}
+.topbar__biz .badge {
+  flex-shrink: 0;
 }
 
 .topbar__actions {
@@ -191,6 +195,7 @@
   align-items: center;
   gap: 0.5rem;
   margin-left: auto;
+  flex-shrink: 0;
 }
 .quick-sale__label {
   display: none;
@@ -206,7 +211,9 @@
 
 .topbar__user {
   position: relative;
+  flex-shrink: 0;
 }
+
 .user-btn {
   display: flex;
   align-items: center;
@@ -336,5 +343,17 @@
 @media (min-width: 640px) {
   .quick-sale__label {
     display: inline;
+  }
+}
+
+/* En celulares: menos separación, sin el rubro ni el nombre del usuario
+   (queda el avatar) para que el nombre del negocio sea legible */
+@media (max-width: 639px) {
+  .topbar {
+    gap: 0.5rem;
+  }
+  .topbar__biz .badge,
+  .user-btn__id {
+    display: none;
   }
 }

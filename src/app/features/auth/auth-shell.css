@@ -181,6 +181,7 @@
   pointer-events: none;
 }
 .auth__brand-content h2 {
+  color: #fff;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   font-weight: 700;
   line-height: 1.25;

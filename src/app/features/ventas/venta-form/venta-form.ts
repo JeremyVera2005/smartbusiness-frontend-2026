@@ -36,6 +36,9 @@ export class VentaForm implements ConCambiosPendientes {
   private readonly buscador = viewChild<ElementRef<HTMLInputElement>>('buscador');
   private buscadorEnfocado = false;
 
+  /** En pantallas táctiles no se muestran indicaciones de teclado (Enter, Ctrl). */
+  protected readonly tactil = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
+
   protected readonly loading = signal(true);
   protected readonly saving = signal(false);
   protected readonly productos = signal<ProductoResponse[]>([]);

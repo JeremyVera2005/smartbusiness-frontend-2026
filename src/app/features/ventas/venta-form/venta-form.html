@@ -1,7 +1,11 @@
 <div class="page-head">
   <div>
     <h1>Nueva venta</h1>
-    <p>Busca, presiona <kbd>Enter</kbd> para agregar y <kbd>Ctrl</kbd> + <kbd>Enter</kbd> para cobrar. El stock se descuenta automáticamente.</p>
+    @if (tactil) {
+      <p>Busca y toca «Agregar» en cada producto; luego «Registrar venta». El stock se descuenta automáticamente.</p>
+    } @else {
+      <p>Busca, presiona <kbd>Enter</kbd> para agregar y <kbd>Ctrl</kbd> + <kbd>Enter</kbd> para cobrar. El stock se descuenta automáticamente.</p>
+    }
   </div>
   <a routerLink="/app/ventas" class="btn btn--ghost btn--sm">
     <ng-icon name="lucideArrowLeft" aria-hidden="true" /> Ver ventas
@@ -28,7 +32,7 @@
           id="q"
           type="search"
           class="input"
-          placeholder="Escribe el nombre y presiona Enter…"
+          [placeholder]="tactil ? 'Escribe el nombre del producto…' : 'Escribe el nombre y presiona Enter…'"
           autocomplete="off"
           aria-describedby="q-ayuda"
           [ngModel]="busqueda()"
@@ -36,7 +40,7 @@
           (keydown.enter)="$event.preventDefault(); agregarPrimero()"
         />
         <span id="q-ayuda" class="hint">
-          @if (busqueda() && disponibles().length) {
+          @if (busqueda() && disponibles().length && !tactil) {
             <kbd>Enter</kbd> agrega <strong>{{ disponibles()[0].nombre }}</strong>
           } @else {
             {{ disponibles().length }} producto(s) con stock disponible
@@ -153,7 +157,10 @@
           @if (saving()) {
             Registrando…
           } @else {
-            Registrar venta <kbd class="kbd-on-btn">Ctrl</kbd><kbd class="kbd-on-btn">Enter</kbd>
+            Registrar venta
+            @if (!tactil) {
+              <kbd class="kbd-on-btn">Ctrl</kbd><kbd class="kbd-on-btn">Enter</kbd>
+            }
           }
         </button>
       }
