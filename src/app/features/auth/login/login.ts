@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -7,7 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, NgIcon],
+  imports: [ReactiveFormsModule, RouterLink, NgIcon, NgOptimizedImage],
   templateUrl: './login.html',
   styleUrls: ['../auth-shell.css'],
 })
