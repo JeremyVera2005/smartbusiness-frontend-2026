@@ -15,3 +15,8 @@ export interface LoginResponse {
   nombre: string;
   email: string;
 }
+
+export interface CambiarPasswordRequest {
+  passwordActual: string;
+  passwordNueva: string;
+}

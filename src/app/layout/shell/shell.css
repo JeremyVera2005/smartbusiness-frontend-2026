@@ -186,9 +186,26 @@
   max-width: 40vw;
 }
 
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+.quick-sale__label {
+  display: none;
+}
+.help-btn {
+  display: inline-flex;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  font-size: 1.1rem;
+  color: var(--c-text-soft);
+}
+
 .topbar__user {
   position: relative;
-  margin-left: auto;
 }
 .user-btn {
   display: flex;
@@ -252,6 +269,20 @@
   border-bottom: 1px solid var(--c-border);
   word-break: break-all;
 }
+.user-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.5rem;
+  margin-top: 0.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+.user-menu__item:hover {
+  background: var(--c-surface-2);
+  text-decoration: none;
+}
 .user-menu button {
   display: flex;
   align-items: center;
@@ -299,5 +330,11 @@
   }
   .user-btn__name {
     max-width: 200px;
+  }
+}
+
+@media (min-width: 640px) {
+  .quick-sale__label {
+    display: inline;
   }
 }

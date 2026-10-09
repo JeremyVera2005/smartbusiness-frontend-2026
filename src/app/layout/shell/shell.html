@@ -17,6 +17,8 @@
               routerLinkActive="is-active"
               [routerLinkActiveOptions]="{ exact: false }"
               (click)="closeDrawer()"
+              [attr.aria-keyshortcuts]="'Alt+' + item.atajo"
+              [title]="item.label + ' (Alt+' + item.atajo + ')'"
             >
               <ng-icon class="nav__icon" [name]="item.icon" aria-hidden="true" />
               {{ item.label }}
@@ -59,12 +61,35 @@
         <span class="badge badge--primary">{{ tipoLabel() }}</span>
       </div>
 
-      <div class="topbar__user">
+      <div class="topbar__actions">
+        <a
+          routerLink="/app/ventas/nueva"
+          class="btn btn--secondary btn--sm quick-sale"
+          aria-keyshortcuts="N"
+          title="Nueva venta (N)"
+        >
+          <ng-icon name="lucidePlus" aria-hidden="true" />
+          <span class="quick-sale__label">Nueva venta</span>
+        </a>
+        <button
+          type="button"
+          class="icon-btn help-btn"
+          (click)="ayudaOpen.set(true)"
+          aria-label="Ayuda y atajos de teclado"
+          aria-keyshortcuts="Shift+?"
+          title="Ayuda y atajos de teclado (?)"
+        >
+          <ng-icon name="lucideCircleHelp" aria-hidden="true" />
+        </button>
+      </div>
+
+      <div class="topbar__user" #userBox>
         <button
           type="button"
           class="user-btn"
           (click)="toggleUserMenu()"
           [attr.aria-expanded]="userMenuOpen()"
+          aria-haspopup="menu"
         >
           <span class="avatar" aria-hidden="true">{{ (usuario()?.nombre || '?')[0] }}</span>
           <span class="user-btn__id">
@@ -76,6 +101,9 @@
         @if (userMenuOpen()) {
           <div class="user-menu" role="menu">
             <p class="user-menu__email">{{ usuario()?.email }}</p>
+            <a routerLink="/app/cuenta" role="menuitem" class="user-menu__item" (click)="userMenuOpen.set(false)">
+              <ng-icon name="lucideKeyRound" aria-hidden="true" /> Mi cuenta y contraseña
+            </a>
             <button type="button" role="menuitem" (click)="logout()">
               <ng-icon name="lucideLogOut" aria-hidden="true" /> Cerrar sesión
             </button>
@@ -91,3 +119,5 @@
     </main>
   </div>
 </div>
+
+<app-shortcuts-help [(open)]="ayudaOpen" />

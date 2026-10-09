@@ -140,3 +140,42 @@
     grid-template-areas: 'info qty sub remove';
   }
 }
+
+/* ---------------------------------------------- Usabilidad (Nielsen/GOMS) */
+.hint {
+  font-size: 0.82rem;
+  color: var(--c-text-faint);
+  min-height: 1.3em;
+}
+
+/* Resalta qué producto agregará Enter (estado visible del sistema) */
+.prod-list li.is-next {
+  margin-inline: -0.6rem;
+  padding-inline: 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--c-primary-soft);
+}
+
+.stock-low {
+  color: var(--c-warning);
+  font-weight: 600;
+}
+
+.carrito__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.qty__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.kbd-on-btn {
+  margin-left: 0.15rem;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: inherit;
+}

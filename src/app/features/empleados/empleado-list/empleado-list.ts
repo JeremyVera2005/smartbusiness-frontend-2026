@@ -4,6 +4,7 @@ import { EmpleadoService } from '../../../core/services/empleado.service';
 import { NegocioService } from '../../../core/services/negocio.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { ConfirmService } from '../../../core/services/confirm.service';
 import { CrearEmpleadoRequest, EmpleadoResponse } from '../../../core/models';
 import { Spinner } from '../../../shared/components/spinner/spinner';
 
@@ -19,6 +20,7 @@ export class EmpleadoList {
   private readonly negocioSvc = inject(NegocioService);
   private readonly auth = inject(AuthService);
   private readonly toast = inject(ToastService);
+  private readonly confirmar = inject(ConfirmService);
 
   private readonly idNegocio = this.negocioSvc.idActivo()!;
   protected readonly usuarioActualId = this.auth.user()?.idUsuario ?? null;
@@ -67,8 +69,14 @@ export class EmpleadoList {
     });
   }
 
-  quitar(emp: EmpleadoResponse): void {
-    if (!confirm(`¿Quitar a ${emp.nombre} de este negocio?`)) {
+  async quitar(emp: EmpleadoResponse): Promise<void> {
+    const ok = await this.confirmar.ask({
+      title: `¿Quitar a ${emp.nombre}?`,
+      message: 'Perderá el acceso a este negocio. Su cuenta y las ventas que registró se conservan.',
+      confirmLabel: 'Quitar del negocio',
+      danger: true,
+    });
+    if (!ok) {
       return;
     }
     this.quitandoId.set(emp.idUsuario);

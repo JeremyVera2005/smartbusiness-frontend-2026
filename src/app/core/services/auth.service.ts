@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { LoginRequest, LoginResponse, RegistroDuenoRequest } from '../models';
+import { CambiarPasswordRequest, LoginRequest, LoginResponse, RegistroDuenoRequest } from '../models';
 
 const TOKEN_KEY = 'sb_token';
 const USER_KEY = 'sb_user';
@@ -37,6 +37,10 @@ export class AuthService {
     return this.http
       .post<LoginResponse>(`${this.base}/login`, body)
       .pipe(tap((res) => this.persistSession(res)));
+  }
+
+  cambiarPassword(body: CambiarPasswordRequest): Observable<void> {
+    return this.http.put<void>(`${environment.apiUrl}/usuarios/me/password`, body);
   }
 
   logout(redirect = true): void {

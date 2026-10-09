@@ -28,7 +28,15 @@
   max-width: 32ch;
 }
 
+/* El <td> debe seguir siendo celda de tabla (con display:flex pierde la
+   alineación y el borde de la fila); el flex va en un contenedor interno. */
+table.data td {
+  vertical-align: middle;
+}
 td.actions {
+  width: 1%;
+}
+.actions__group {
   display: flex;
   gap: 0.4rem;
   justify-content: flex-end;

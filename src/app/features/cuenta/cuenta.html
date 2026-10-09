@@ -1,0 +1,95 @@
+<div class="page-head">
+  <div>
+    <h1>Mi cuenta</h1>
+    <p>Revisa tus datos y cambia tu contraseña.</p>
+  </div>
+</div>
+
+<div class="cuenta">
+  <section class="card datos" aria-labelledby="datos-title">
+    <h2 id="datos-title">Datos de la cuenta</h2>
+    <dl>
+      <div>
+        <dt>Nombre</dt>
+        <dd>{{ usuario()?.nombre }}</dd>
+      </div>
+      <div>
+        <dt>Correo</dt>
+        <dd>{{ usuario()?.email }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <form class="card form" [formGroup]="form" (ngSubmit)="submit()" novalidate aria-labelledby="pass-title">
+    <h2 id="pass-title">Cambiar contraseña</h2>
+
+    <div
+      class="field"
+      [class.field--error]="form.controls.passwordActual.touched && form.controls.passwordActual.invalid"
+    >
+      <label for="actual">Contraseña actual *</label>
+      <input
+        id="actual"
+        class="input"
+        [type]="mostrar() ? 'text' : 'password'"
+        formControlName="passwordActual"
+        autocomplete="current-password"
+        required
+      />
+      @if (form.controls.passwordActual.touched && form.controls.passwordActual.hasError('required')) {
+        <span class="field-error">Ingresa tu contraseña actual.</span>
+      } @else if (form.controls.passwordActual.hasError('incorrecta')) {
+        <span class="field-error">La contraseña actual no es correcta.</span>
+      }
+    </div>
+
+    <div
+      class="field"
+      [class.field--error]="form.controls.passwordNueva.touched && (form.controls.passwordNueva.invalid || form.hasError('igualALaActual'))"
+    >
+      <label for="nueva">Nueva contraseña *</label>
+      <input
+        id="nueva"
+        class="input"
+        [type]="mostrar() ? 'text' : 'password'"
+        formControlName="passwordNueva"
+        autocomplete="new-password"
+        aria-describedby="reglas"
+        required
+      />
+    </div>
+
+    <div
+      class="field"
+      [class.field--error]="form.controls.confirmar.touched && (form.controls.confirmar.invalid || form.hasError('noCoinciden'))"
+    >
+      <label for="confirmar">Repite la nueva contraseña *</label>
+      <input
+        id="confirmar"
+        class="input"
+        [type]="mostrar() ? 'text' : 'password'"
+        formControlName="confirmar"
+        autocomplete="new-password"
+        required
+      />
+      @if (form.controls.confirmar.touched && form.hasError('noCoinciden')) {
+        <span class="field-error">Las contraseñas no coinciden.</span>
+      }
+    </div>
+
+    <ul id="reglas" class="reglas" aria-label="Requisitos de la nueva contraseña">
+      <li [class.ok]="regla('largo')">Al menos 8 caracteres</li>
+      <li [class.ok]="regla('distinta')">Distinta de la contraseña actual</li>
+      <li [class.ok]="regla('coinciden')">Ambas contraseñas coinciden</li>
+    </ul>
+
+    <label class="check">
+      <input type="checkbox" [checked]="mostrar()" (change)="mostrar.set(!mostrar())" />
+      Mostrar contraseñas
+    </label>
+
+    <button type="submit" class="btn" [disabled]="saving()">
+      {{ saving() ? 'Guardando…' : 'Cambiar contraseña' }}
+    </button>
+  </form>
+</div>

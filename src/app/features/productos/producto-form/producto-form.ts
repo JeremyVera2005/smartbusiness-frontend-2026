@@ -12,6 +12,7 @@ import { ProductoService } from '../../../core/services/producto.service';
 import { NegocioService } from '../../../core/services/negocio.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { CampoProductoExtra, ProductoRequest } from '../../../core/models';
+import { ConCambiosPendientes } from '../../../core/guards/pending-changes.guard';
 import { Spinner } from '../../../shared/components/spinner/spinner';
 
 @Component({
@@ -20,7 +21,7 @@ import { Spinner } from '../../../shared/components/spinner/spinner';
   templateUrl: './producto-form.html',
   styleUrl: './producto-form.css',
 })
-export class ProductoForm {
+export class ProductoForm implements ConCambiosPendientes {
   private readonly fb = inject(FormBuilder);
   private readonly productoSvc = inject(ProductoService);
   private readonly negocioSvc = inject(NegocioService);
@@ -45,6 +46,10 @@ export class ProductoForm {
     categoria: [''],
     atributosExtra: this.fb.group({} as Record<string, FormControl>),
   });
+
+  tieneCambiosPendientes(): boolean {
+    return this.form.dirty && !this.saving();
+  }
 
   protected get extraGroup(): FormGroup {
     return this.form.controls.atributosExtra as FormGroup;
@@ -150,6 +155,7 @@ export class ProductoForm {
     req$.subscribe({
       next: () => {
         this.toast.success(this.editando() ? 'Producto actualizado.' : 'Producto creado.');
+        this.form.markAsPristine();
         void this.router.navigate(['/app/productos']);
       },
       error: () => this.saving.set(false),

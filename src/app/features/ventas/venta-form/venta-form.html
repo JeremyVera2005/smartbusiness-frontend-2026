@@ -1,10 +1,10 @@
 <div class="page-head">
   <div>
     <h1>Nueva venta</h1>
-    <p>Agrega productos al carrito y registra la venta. El stock se descuenta automáticamente.</p>
+    <p>Busca, presiona <kbd>Enter</kbd> para agregar y <kbd>Ctrl</kbd> + <kbd>Enter</kbd> para cobrar. El stock se descuenta automáticamente.</p>
   </div>
   <a routerLink="/app/ventas" class="btn btn--ghost btn--sm">
-    <ng-icon name="lucideArrowLeft" aria-hidden="true" /> Volver
+    <ng-icon name="lucideArrowLeft" aria-hidden="true" /> Ver ventas
   </a>
 </div>
 
@@ -22,27 +22,50 @@
   <div class="pos">
     <section class="card catalogo" aria-label="Productos disponibles">
       <div class="field">
-        <label for="q" class="visually-hidden">Buscar producto</label>
+        <label for="q">Buscar producto</label>
         <input
+          #buscador
           id="q"
           type="search"
           class="input"
-          placeholder="Buscar producto…"
+          placeholder="Escribe el nombre y presiona Enter…"
+          autocomplete="off"
+          aria-describedby="q-ayuda"
           [ngModel]="busqueda()"
           (ngModelChange)="busqueda.set($event)"
+          (keydown.enter)="$event.preventDefault(); agregarPrimero()"
         />
+        <span id="q-ayuda" class="hint">
+          @if (busqueda() && disponibles().length) {
+            <kbd>Enter</kbd> agrega <strong>{{ disponibles()[0].nombre }}</strong>
+          } @else {
+            {{ disponibles().length }} producto(s) con stock disponible
+          }
+        </span>
       </div>
       @if (!disponibles().length) {
-        <p class="muted">Sin productos disponibles para agregar.</p>
+        <p class="muted">
+          {{ busqueda() ? 'Ningún producto coincide con "' + busqueda() + '".' : 'Ya agregaste todos los productos con stock.' }}
+        </p>
       } @else {
         <ul class="prod-list">
-          @for (p of disponibles(); track p.idProducto) {
-            <li>
+          @for (p of disponibles(); track p.idProducto; let first = $first) {
+            <li [class.is-next]="first && busqueda()">
               <div>
                 <strong>{{ p.nombre }}</strong>
-                <span class="text-faint">{{ p.precioVenta | money }} · stock {{ p.stockActual }}</span>
+                <span class="text-faint">
+                  {{ p.precioVenta | money }} ·
+                  <span [class.stock-low]="p.stockActual <= (p.stockMinimo ?? 0)">stock {{ p.stockActual }}</span>
+                </span>
               </div>
-              <button type="button" class="btn btn--subtle btn--sm" (click)="agregar(p)">Agregar</button>
+              <button
+                type="button"
+                class="btn btn--subtle btn--sm"
+                (click)="agregar(p)"
+                [attr.aria-label]="'Agregar ' + p.nombre"
+              >
+                Agregar
+              </button>
             </li>
           }
         </ul>
@@ -50,7 +73,14 @@
     </section>
 
     <section class="card carrito" aria-label="Carrito de venta">
-      <h2>Carrito</h2>
+      <div class="carrito__head">
+        <h2>Carrito</h2>
+        @if (carrito().length) {
+          <button type="button" class="btn btn--ghost btn--sm" (click)="vaciar()">
+            <ng-icon name="lucideTrash2" aria-hidden="true" /> Vaciar
+          </button>
+        }
+      </div>
       @if (!carrito().length) {
         <p class="muted">Todavía no agregaste productos.</p>
       } @else {
@@ -59,10 +89,21 @@
             <li>
               <div class="cart-line__info">
                 <strong>{{ l.producto.nombre }}</strong>
-                <span class="text-faint">{{ l.producto.precioVenta | money }} c/u</span>
+                <span class="text-faint">
+                  {{ l.producto.precioVenta | money }} c/u
+                  @if (l.cantidad >= l.producto.stockActual) {
+                    · <span class="stock-low">máximo en stock</span>
+                  }
+                </span>
               </div>
               <div class="qty">
-                <button type="button" class="qty__btn" (click)="cambiarCantidad(l.producto.idProducto, -1)" aria-label="Quitar una unidad">
+                <button
+                  type="button"
+                  class="qty__btn"
+                  (click)="cambiarCantidad(l.producto.idProducto, -1)"
+                  [disabled]="l.cantidad <= 1"
+                  [attr.aria-label]="'Quitar una unidad de ' + l.producto.nombre"
+                >
                   <ng-icon name="lucideMinus" aria-hidden="true" />
                 </button>
                 <input
@@ -74,25 +115,46 @@
                   (ngModelChange)="fijarCantidad(l.producto.idProducto, $event)"
                   [attr.aria-label]="'Cantidad de ' + l.producto.nombre"
                 />
-                <button type="button" class="qty__btn" (click)="cambiarCantidad(l.producto.idProducto, 1)" aria-label="Agregar una unidad">
+                <button
+                  type="button"
+                  class="qty__btn"
+                  (click)="cambiarCantidad(l.producto.idProducto, 1)"
+                  [disabled]="l.cantidad >= l.producto.stockActual"
+                  [attr.aria-label]="'Agregar una unidad de ' + l.producto.nombre"
+                >
                   <ng-icon name="lucidePlus" aria-hidden="true" />
                 </button>
               </div>
               <span class="cart-line__sub num">{{ l.producto.precioVenta * l.cantidad | money }}</span>
-              <button type="button" class="link-danger" (click)="quitar(l.producto.idProducto)" aria-label="Quitar del carrito">
+              <button
+                type="button"
+                class="link-danger"
+                (click)="quitar(l.producto.idProducto)"
+                [attr.aria-label]="'Quitar ' + l.producto.nombre + ' del carrito'"
+              >
                 <ng-icon name="lucideX" aria-hidden="true" />
               </button>
             </li>
           }
         </ul>
 
-        <div class="cart-total">
-          <span>Total ({{ carrito().length }} ítem/s)</span>
+        <div class="cart-total" aria-live="polite">
+          <span>Total · {{ unidades() }} unidad(es)</span>
           <strong>{{ total() | money }}</strong>
         </div>
 
-        <button type="button" class="btn btn--block" (click)="registrar()" [disabled]="saving()">
-          {{ saving() ? 'Registrando…' : 'Registrar venta' }}
+        <button
+          type="button"
+          class="btn btn--block"
+          (click)="registrar()"
+          [disabled]="saving()"
+          aria-keyshortcuts="Control+Enter"
+        >
+          @if (saving()) {
+            Registrando…
+          } @else {
+            Registrar venta <kbd class="kbd-on-btn">Ctrl</kbd><kbd class="kbd-on-btn">Enter</kbd>
+          }
         </button>
       }
     </section>

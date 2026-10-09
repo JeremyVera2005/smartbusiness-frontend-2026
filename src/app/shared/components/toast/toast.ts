@@ -10,7 +10,12 @@ import { ToastService } from '../../../core/services/toast.service';
       @for (t of toast.toasts(); track t.id) {
         <div class="toast" [class]="'toast--' + t.type" role="alert">
           <span class="dot" aria-hidden="true"></span>
-          <p>{{ t.text }}</p>
+          <p>
+            {{ t.text }}
+            @if (t.action; as a) {
+              <button type="button" class="action" (click)="a.run(); toast.dismiss(t.id)">{{ a.label }}</button>
+            }
+          </p>
           <button type="button" class="close" (click)="toast.dismiss(t.id)" aria-label="Cerrar notificación">
             <ng-icon name="lucideX" aria-hidden="true" />
           </button>
@@ -60,6 +65,16 @@ import { ToastService } from '../../../core/services/toast.service';
     .toast--error { border-left: 4px solid var(--c-danger); }
     .toast--warning { border-left: 4px solid var(--c-warning); }
     .toast--info { border-left: 4px solid var(--c-info); }
+    .action {
+      margin-left: 0.4rem;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      font-weight: 700;
+      color: var(--c-primary);
+      text-decoration: underline;
+      cursor: pointer;
+    }
     .close {
       display: inline-flex;
       border: 0;

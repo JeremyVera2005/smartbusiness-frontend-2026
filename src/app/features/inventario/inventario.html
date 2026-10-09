@@ -44,13 +44,25 @@
         </div>
       </div>
 
-      <div class="field" [class.field--error]="form.controls.cantidad.touched && form.controls.cantidad.invalid">
+      <div class="field" [class.field--error]="(form.controls.cantidad.touched && form.controls.cantidad.invalid) || salidaExcedeStock()">
         <label for="cant">
           {{ form.controls.tipoMovimiento.value === 'AJUSTE' ? 'Stock final *' : 'Cantidad *' }}
         </label>
-        <input id="cant" type="number" min="1" step="1" class="input" formControlName="cantidad" required />
+        <input
+          id="cant"
+          type="number"
+          min="1"
+          step="1"
+          class="input"
+          formControlName="cantidad"
+          [attr.max]="form.controls.tipoMovimiento.value === 'SALIDA' ? productoSel()?.stockActual : null"
+          aria-describedby="cant-preview"
+          required
+        />
         @if (form.controls.cantidad.touched && form.controls.cantidad.invalid) {
           <span class="field-error">Ingresa un número mayor a 0.</span>
+        } @else if (salidaExcedeStock()) {
+          <span class="field-error">Solo hay {{ productoSel()?.stockActual }} en stock; no puedes sacar más que eso.</span>
         }
       </div>
 
@@ -59,11 +71,18 @@
         <input id="motivo" type="text" class="input" formControlName="motivo" placeholder="Ej: compra a proveedor, merma, conteo físico…" />
       </div>
 
-      @if (productoSel()) {
-        <p class="hint">Stock actual de <strong>{{ productoSel()?.nombre }}</strong>: {{ productoSel()?.stockActual }}</p>
+      @if (productoSel(); as p) {
+        <p class="hint preview" id="cant-preview" aria-live="polite">
+          <strong>{{ p.nombre }}</strong>: stock actual {{ p.stockActual }}
+          @if (stockResultante() !== null && !salidaExcedeStock()) {
+            <ng-icon name="lucideArrowRight" aria-hidden="true" />
+            <span class="visually-hidden">quedará en</span>
+            <strong class="preview__new">{{ stockResultante() }}</strong>
+          }
+        </p>
       }
 
-      <button type="submit" class="btn" [disabled]="saving()">
+      <button type="submit" class="btn" [disabled]="saving() || salidaExcedeStock()">
         {{ saving() ? 'Registrando…' : 'Registrar movimiento' }}
       </button>
     </form>

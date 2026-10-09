@@ -1,6 +1,8 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductoService } from '../../core/services/producto.service';
 import { InventarioService } from '../../core/services/inventario.service';
@@ -17,7 +19,7 @@ import { EmptyState } from '../../shared/components/empty-state/empty-state';
 
 @Component({
   selector: 'app-inventario',
-  imports: [ReactiveFormsModule, RouterLink, DatePipe, DecimalPipe, Spinner, EmptyState],
+  imports: [ReactiveFormsModule, RouterLink, DatePipe, DecimalPipe, Spinner, EmptyState, NgIcon],
   templateUrl: './inventario.html',
   styleUrl: './inventario.css',
 })
@@ -26,6 +28,9 @@ export class Inventario {
   private readonly productoSvc = inject(ProductoService);
   private readonly inventarioSvc = inject(InventarioService);
   private readonly toast = inject(ToastService);
+
+  /** ?producto=ID desde el catálogo: llega con el producto ya elegido. */
+  readonly producto = input<string>();
 
   protected readonly tipos = TIPOS_MOVIMIENTO;
   protected readonly loading = signal(true);
@@ -41,10 +46,31 @@ export class Inventario {
     motivo: [''],
   });
 
+  private readonly valores = toSignal(this.form.valueChanges, { initialValue: this.form.getRawValue() });
+
   protected readonly productoSel = computed(() => {
-    const id = this.form.controls.idProducto.value;
+    const id = Number(this.valores().idProducto);
     return this.productos().find((p) => p.idProducto === id) ?? null;
   });
+
+  /** Vista previa del resultado antes de confirmar (Nielsen #1 y #5). */
+  protected readonly stockResultante = computed(() => {
+    const p = this.productoSel();
+    const cant = Number(this.valores().cantidad);
+    if (!p || !cant || cant < 1) {
+      return null;
+    }
+    switch (this.valores().tipoMovimiento) {
+      case 'ENTRADA':
+        return p.stockActual + cant;
+      case 'SALIDA':
+        return p.stockActual - cant;
+      default:
+        return cant;
+    }
+  });
+
+  protected readonly salidaExcedeStock = computed(() => (this.stockResultante() ?? 0) < 0);
 
   constructor() {
     this.productoSvc.listar().subscribe({
@@ -53,6 +79,14 @@ export class Inventario {
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
+    });
+
+    effect(() => {
+      const id = Number(this.producto());
+      if (id && this.productos().some((p) => p.idProducto === id) && this.form.controls.idProducto.value !== id) {
+        this.form.controls.idProducto.setValue(id);
+        this.onProductoChange();
+      }
     });
   }
 
@@ -77,7 +111,7 @@ export class Inventario {
   }
 
   submit(): void {
-    if (this.form.invalid || this.saving()) {
+    if (this.form.invalid || this.salidaExcedeStock() || this.saving()) {
       this.form.markAllAsTouched();
       return;
     }

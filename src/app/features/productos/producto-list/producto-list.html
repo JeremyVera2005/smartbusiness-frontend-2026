@@ -24,7 +24,7 @@
         id="q"
         type="search"
         class="input"
-        placeholder="Buscar por nombre o categoría…"
+        placeholder="Buscar por nombre o categoría…  ( / )"
         [ngModel]="busqueda()"
         (ngModelChange)="busqueda.set($event)"
       />
@@ -69,15 +69,29 @@
                 }
               </td>
               <td class="actions">
-                <a [routerLink]="['/app/productos', p.idProducto, 'editar']" class="btn btn--ghost btn--sm">Editar</a>
-                <button
-                  type="button"
-                  class="btn btn--danger btn--sm"
-                  (click)="eliminar(p)"
-                  [disabled]="eliminandoId() === p.idProducto"
-                >
-                  {{ eliminandoId() === p.idProducto ? '…' : 'Quitar' }}
-                </button>
+                <div class="actions__group">
+                  <a
+                    routerLink="/app/inventario"
+                    [queryParams]="{ producto: p.idProducto }"
+                    class="btn btn--subtle btn--sm"
+                    [attr.aria-label]="'Mover stock de ' + p.nombre"
+                    title="Registrar entrada, salida o ajuste"
+                  >Stock</a>
+                  <a
+                    [routerLink]="['/app/productos', p.idProducto, 'editar']"
+                    class="btn btn--ghost btn--sm"
+                    [attr.aria-label]="'Editar ' + p.nombre"
+                  >Editar</a>
+                  <button
+                    type="button"
+                    class="btn btn--danger btn--sm"
+                    (click)="eliminar(p)"
+                    [disabled]="eliminandoId() === p.idProducto"
+                    [attr.aria-label]="'Desactivar ' + p.nombre"
+                  >
+                    {{ eliminandoId() === p.idProducto ? 'Desactivando…' : 'Desactivar' }}
+                  </button>
+                </div>
               </td>
             </tr>
           }

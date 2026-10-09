@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './core/guards/auth.guard';
 import { duenoGuard, negocioActivoGuard } from './core/guards/negocio.guard';
+import { pendingChangesGuard } from './core/guards/pending-changes.guard';
 
 export const routes: Routes = [
   {
@@ -53,12 +54,14 @@ export const routes: Routes = [
       },
       {
         path: 'productos/nuevo',
+        canDeactivate: [pendingChangesGuard],
         loadComponent: () =>
           import('./features/productos/producto-form/producto-form').then((m) => m.ProductoForm),
         title: 'Nuevo producto · SmartBusiness IA',
       },
       {
         path: 'productos/:id/editar',
+        canDeactivate: [pendingChangesGuard],
         loadComponent: () =>
           import('./features/productos/producto-form/producto-form').then((m) => m.ProductoForm),
         title: 'Editar producto · SmartBusiness IA',
@@ -77,6 +80,7 @@ export const routes: Routes = [
       },
       {
         path: 'ventas/nueva',
+        canDeactivate: [pendingChangesGuard],
         loadComponent: () =>
           import('./features/ventas/venta-form/venta-form').then((m) => m.VentaForm),
         title: 'Nueva venta · SmartBusiness IA',
@@ -87,6 +91,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/empleados/empleado-list/empleado-list').then((m) => m.EmpleadoList),
         title: 'Personal · SmartBusiness IA',
+      },
+      {
+        path: 'cuenta',
+        canDeactivate: [pendingChangesGuard],
+        loadComponent: () => import('./features/cuenta/cuenta').then((m) => m.Cuenta),
+        title: 'Mi cuenta · SmartBusiness IA',
       },
       {
         path: 'asistente',

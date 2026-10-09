@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ProductoService } from '../../../core/services/producto.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { ConfirmService } from '../../../core/services/confirm.service';
 import { ProductoResponse } from '../../../core/models';
 import { Spinner } from '../../../shared/components/spinner/spinner';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
@@ -18,6 +19,7 @@ import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 export class ProductoList {
   private readonly productoSvc = inject(ProductoService);
   private readonly toast = inject(ToastService);
+  private readonly confirmar = inject(ConfirmService);
 
   protected readonly loading = signal(true);
   protected readonly productos = signal<ProductoResponse[]>([]);
@@ -56,8 +58,14 @@ export class ProductoList {
     return (p.stockMinimo ?? 0) > 0 && p.stockActual <= (p.stockMinimo ?? 0);
   }
 
-  eliminar(p: ProductoResponse): void {
-    if (!confirm(`¿Desactivar el producto "${p.nombre}"? No se perderá el historial de ventas.`)) {
+  async eliminar(p: ProductoResponse): Promise<void> {
+    const ok = await this.confirmar.ask({
+      title: `¿Desactivar "${p.nombre}"?`,
+      message: 'Dejará de aparecer en el catálogo y en el punto de venta. El historial de ventas y movimientos se conserva.',
+      confirmLabel: 'Desactivar',
+      danger: true,
+    });
+    if (!ok) {
       return;
     }
     this.eliminandoId.set(p.idProducto);
