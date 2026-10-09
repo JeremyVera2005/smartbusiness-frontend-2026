@@ -5,6 +5,7 @@ import { NgIcon } from '@ng-icons/core';
 import { ProductoService } from '../../../core/services/producto.service';
 import { VentaService } from '../../../core/services/venta.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { NegocioService } from '../../../core/services/negocio.service';
 import { ConCambiosPendientes } from '../../../core/guards/pending-changes.guard';
 import { ProductoResponse, VentaRequest } from '../../../core/models';
 import { Spinner } from '../../../shared/components/spinner/spinner';
@@ -39,6 +40,7 @@ export class VentaForm implements ConCambiosPendientes {
   /** En pantallas táctiles no se muestran indicaciones de teclado (Enter, Ctrl). */
   protected readonly tactil = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
 
+  protected readonly esDueno = inject(NegocioService).esDueno;
   protected readonly loading = signal(true);
   protected readonly saving = signal(false);
   protected readonly productos = signal<ProductoResponse[]>([]);

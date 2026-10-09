@@ -54,6 +54,7 @@ export const routes: Routes = [
       },
       {
         path: 'productos/nuevo',
+        canActivate: [duenoGuard],
         canDeactivate: [pendingChangesGuard],
         loadComponent: () =>
           import('./features/productos/producto-form/producto-form').then((m) => m.ProductoForm),
@@ -61,6 +62,7 @@ export const routes: Routes = [
       },
       {
         path: 'productos/:id/editar',
+        canActivate: [duenoGuard],
         canDeactivate: [pendingChangesGuard],
         loadComponent: () =>
           import('./features/productos/producto-form/producto-form').then((m) => m.ProductoForm),

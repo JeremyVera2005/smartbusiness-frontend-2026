@@ -21,7 +21,7 @@ export class Dashboard {
   private readonly productoSvc = inject(ProductoService);
   private readonly ventaSvc = inject(VentaService);
   private readonly iaSvc = inject(IaService);
-  private readonly negocioSvc = inject(NegocioService);
+  protected readonly negocioSvc = inject(NegocioService);
 
   protected readonly loading = signal(true);
   protected readonly negocio = this.negocioSvc.activo;

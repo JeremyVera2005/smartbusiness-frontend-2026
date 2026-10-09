@@ -20,6 +20,10 @@ export class EmpleadoService {
     return this.http.post<EmpleadoResponse>(this.base(idNegocio), body);
   }
 
+  restablecerPassword(idNegocio: number, idUsuarioEmpleado: number, password: string): Observable<void> {
+    return this.http.put<void>(`${this.base(idNegocio)}/${idUsuarioEmpleado}/password`, { password });
+  }
+
   quitar(idNegocio: number, idUsuarioEmpleado: number): Observable<void> {
     return this.http.delete<void>(`${this.base(idNegocio)}/${idUsuarioEmpleado}`);
   }

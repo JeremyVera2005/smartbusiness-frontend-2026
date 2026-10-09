@@ -20,7 +20,9 @@
     title="No hay productos para vender"
     message="Agrega productos con stock disponible al catálogo."
   >
-    <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+    @if (esDueno()) {
+      <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+    }
   </app-empty-state>
 } @else {
   <div class="pos">

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmpleadoService } from '../../../core/services/empleado.service';
 import { NegocioService } from '../../../core/services/negocio.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -10,7 +10,7 @@ import { Spinner } from '../../../shared/components/spinner/spinner';
 
 @Component({
   selector: 'app-empleado-list',
-  imports: [ReactiveFormsModule, Spinner],
+  imports: [ReactiveFormsModule, FormsModule, Spinner],
   templateUrl: './empleado-list.html',
   styleUrl: './empleado-list.css',
 })
@@ -29,6 +29,11 @@ export class EmpleadoList {
   protected readonly saving = signal(false);
   protected readonly quitandoId = signal<number | null>(null);
   protected readonly empleados = signal<EmpleadoResponse[]>([]);
+
+  /** Empleado al que se le está asignando una contraseña temporal. */
+  protected readonly restableciendoId = signal<number | null>(null);
+  protected readonly nuevaPassword = signal('');
+  protected readonly guardandoPassword = signal(false);
 
   protected readonly form = this.fb.nonNullable.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -66,6 +71,31 @@ export class EmpleadoList {
         this.saving.set(false);
       },
       error: () => this.saving.set(false),
+    });
+  }
+
+  abrirRestablecer(emp: EmpleadoResponse): void {
+    this.restableciendoId.set(emp.idUsuario);
+    this.nuevaPassword.set('');
+  }
+
+  cancelarRestablecer(): void {
+    this.restableciendoId.set(null);
+  }
+
+  guardarPassword(emp: EmpleadoResponse): void {
+    const password = this.nuevaPassword();
+    if (password.length < 8 || this.guardandoPassword()) {
+      return;
+    }
+    this.guardandoPassword.set(true);
+    this.empleadoSvc.restablecerPassword(this.idNegocio, emp.idUsuario, password).subscribe({
+      next: () => {
+        this.toast.success(`Contraseña temporal asignada a ${emp.nombre}. Compártela con esa persona.`);
+        this.restableciendoId.set(null);
+        this.guardandoPassword.set(false);
+      },
+      error: () => this.guardandoPassword.set(false),
     });
   }
 

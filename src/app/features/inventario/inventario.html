@@ -13,7 +13,9 @@
     title="No hay productos"
     message="Primero agrega productos al catálogo para poder mover su stock."
   >
-    <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+    @if (esDueno()) {
+      <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+    }
   </app-empty-state>
 } @else {
   <div class="grid-2">
@@ -73,7 +75,7 @@
 
       @if (productoSel(); as p) {
         <p class="hint preview" id="cant-preview" aria-live="polite">
-          <strong>{{ p.nombre }}</strong>: stock actual {{ p.stockActual }}
+          <span><strong>{{ p.nombre }}</strong>: stock actual {{ p.stockActual }}</span>
           @if (stockResultante() !== null && !salidaExcedeStock()) {
             <ng-icon name="lucideArrowRight" aria-hidden="true" />
             <span class="visually-hidden">quedará en</span>

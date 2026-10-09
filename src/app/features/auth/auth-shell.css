@@ -63,6 +63,36 @@
   color: var(--c-text-soft);
 }
 
+/* «¿Olvidaste tu contraseña?» con instrucciones según el rol */
+.auth__forgot {
+  margin-top: 1rem;
+  text-align: center;
+}
+.link-btn {
+  border: 0;
+  background: transparent;
+  padding: 0.25rem;
+  color: var(--c-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.link-btn:hover {
+  text-decoration: underline;
+}
+.auth__forgot-help {
+  margin-top: 0.5rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: var(--c-surface-2);
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--c-text-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
 /* Campo con ícono a la izquierda (sobre/candado), como en el Figma */
 .field--icon {
   position: relative;

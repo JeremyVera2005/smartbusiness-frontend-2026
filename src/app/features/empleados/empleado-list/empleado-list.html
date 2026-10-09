@@ -60,6 +60,15 @@
               @if (e.rol !== 'DUENO' && e.idUsuario !== usuarioActualId) {
                 <button
                   type="button"
+                  class="btn btn--ghost btn--sm"
+                  (click)="abrirRestablecer(e)"
+                  [attr.aria-label]="'Asignar contraseña temporal a ' + e.nombre"
+                  [attr.aria-expanded]="restableciendoId() === e.idUsuario"
+                >
+                  Contraseña
+                </button>
+                <button
+                  type="button"
                   class="btn btn--danger btn--sm"
                   (click)="quitar(e)"
                   [disabled]="quitandoId() === e.idUsuario"
@@ -68,6 +77,29 @@
                 </button>
               }
             </div>
+            @if (restableciendoId() === e.idUsuario) {
+              <form class="reset" (ngSubmit)="guardarPassword(e)">
+                <label [for]="'reset-' + e.idUsuario">Nueva contraseña temporal para {{ e.nombre }}</label>
+                <div class="reset__row">
+                  <input
+                    [id]="'reset-' + e.idUsuario"
+                    type="text"
+                    class="input"
+                    name="nuevaPassword"
+                    autocomplete="off"
+                    minlength="8"
+                    [ngModel]="nuevaPassword()"
+                    (ngModelChange)="nuevaPassword.set($event)"
+                    placeholder="Mínimo 8 caracteres"
+                  />
+                  <button type="submit" class="btn btn--sm" [disabled]="nuevaPassword().length < 8 || guardandoPassword()">
+                    {{ guardandoPassword() ? 'Guardando…' : 'Guardar' }}
+                  </button>
+                  <button type="button" class="btn btn--ghost btn--sm" (click)="cancelarRestablecer()">Cancelar</button>
+                </div>
+                <span class="hint">La persona podrá cambiarla después desde «Mi cuenta».</span>
+              </form>
+            }
           </li>
         }
       </ul>

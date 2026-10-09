@@ -111,7 +111,9 @@
   <section class="card">
     <h2>Accesos rápidos</h2>
     <div class="quick">
-      <a routerLink="/app/productos/nuevo" class="btn btn--subtle">Nuevo producto</a>
+      @if (negocioSvc.esDueno()) {
+        <a routerLink="/app/productos/nuevo" class="btn btn--subtle">Nuevo producto</a>
+      }
       <a routerLink="/app/inventario" class="btn btn--subtle">Registrar movimiento</a>
       <a routerLink="/app/ventas/nueva" class="btn btn--subtle">Nueva venta</a>
       <a routerLink="/app/asistente" class="btn btn--subtle">Preguntar al asistente</a>

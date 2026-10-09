@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { ProductoService } from '../../../core/services/producto.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { ConfirmService } from '../../../core/services/confirm.service';
+import { NegocioService } from '../../../core/services/negocio.service';
 import { ProductoResponse } from '../../../core/models';
 import { Spinner } from '../../../shared/components/spinner/spinner';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
@@ -20,6 +21,9 @@ export class ProductoList {
   private readonly productoSvc = inject(ProductoService);
   private readonly toast = inject(ToastService);
   private readonly confirmar = inject(ConfirmService);
+
+  /** Crear, editar y desactivar productos es exclusivo del dueño. */
+  protected readonly esDueno = inject(NegocioService).esDueno;
 
   protected readonly loading = signal(true);
   protected readonly productos = signal<ProductoResponse[]>([]);

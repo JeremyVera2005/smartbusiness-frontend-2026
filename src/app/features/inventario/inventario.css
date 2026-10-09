@@ -85,3 +85,17 @@ section.card h2 {
   color: var(--c-primary-dark);
   font-size: 1.05rem;
 }
+
+/* Historial: sin ancho mínimo fijo y con «Motivo» en varias líneas, para que
+   no se recorte en anchos medianos de pantalla */
+section.card table.data {
+  min-width: 0;
+}
+section.card table.data th,
+section.card table.data td {
+  padding: 0.65rem 0.75rem;
+}
+section.card table.data td:last-child {
+  white-space: normal;
+  min-width: 7rem;
+}

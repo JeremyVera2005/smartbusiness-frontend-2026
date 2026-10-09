@@ -60,6 +60,24 @@
         </button>
       </form>
 
+      <div class="auth__forgot">
+        <button
+          type="button"
+          class="link-btn"
+          (click)="mostrarAyudaClave.set(!mostrarAyudaClave())"
+          [attr.aria-expanded]="mostrarAyudaClave()"
+          aria-controls="ayuda-clave"
+        >
+          ¿Olvidaste tu contraseña?
+        </button>
+        @if (mostrarAyudaClave()) {
+          <div id="ayuda-clave" class="auth__forgot-help" role="note">
+            <p><strong>Si eres empleado:</strong> pide al dueño del negocio que te asigne una contraseña temporal desde «Personal». Luego podrás cambiarla en «Mi cuenta».</p>
+            <p><strong>Si eres dueño:</strong> la recuperación por correo todavía no está disponible; comunícate con el administrador del sistema.</p>
+          </div>
+        }
+      </div>
+
       <p class="auth__alt">
         ¿No tienes cuenta? <a routerLink="/registro">Regístrate</a>
       </p>

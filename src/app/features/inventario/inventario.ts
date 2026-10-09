@@ -7,6 +7,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductoService } from '../../core/services/producto.service';
 import { InventarioService } from '../../core/services/inventario.service';
 import { ToastService } from '../../core/services/toast.service';
+import { NegocioService } from '../../core/services/negocio.service';
 import {
   MovimientoRequest,
   MovimientoResponse,
@@ -33,6 +34,7 @@ export class Inventario {
   readonly producto = input<string>();
 
   protected readonly tipos = TIPOS_MOVIMIENTO;
+  protected readonly esDueno = inject(NegocioService).esDueno;
   protected readonly loading = signal(true);
   protected readonly saving = signal(false);
   protected readonly productos = signal<ProductoResponse[]>([]);

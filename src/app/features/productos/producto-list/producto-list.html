@@ -3,7 +3,9 @@
     <h1>Productos</h1>
     <p>Catálogo del negocio y control de stock.</p>
   </div>
-  <a routerLink="/app/productos/nuevo" class="btn">+ Nuevo producto</a>
+  @if (esDueno()) {
+    <a routerLink="/app/productos/nuevo" class="btn">+ Nuevo producto</a>
+  }
 </div>
 
 @if (loading()) {
@@ -12,9 +14,11 @@
   <app-empty-state
     icon="lucidePackage"
     title="Tu catálogo está vacío"
-    message="Agrega productos para empezar a registrar ventas y movimientos de inventario."
+    [message]="esDueno() ? 'Agrega productos para empezar a registrar ventas y movimientos de inventario.' : 'El dueño del negocio todavía no agregó productos.'"
   >
-    <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+    @if (esDueno()) {
+      <a routerLink="/app/productos/nuevo" class="btn">Agregar producto</a>
+    }
   </app-empty-state>
 } @else {
   <div class="toolbar card card--tight">
@@ -77,20 +81,22 @@
                     [attr.aria-label]="'Mover stock de ' + p.nombre"
                     title="Registrar entrada, salida o ajuste"
                   >Stock</a>
-                  <a
-                    [routerLink]="['/app/productos', p.idProducto, 'editar']"
-                    class="btn btn--ghost btn--sm"
-                    [attr.aria-label]="'Editar ' + p.nombre"
-                  >Editar</a>
-                  <button
-                    type="button"
-                    class="btn btn--danger btn--sm"
-                    (click)="eliminar(p)"
-                    [disabled]="eliminandoId() === p.idProducto"
-                    [attr.aria-label]="'Desactivar ' + p.nombre"
-                  >
-                    {{ eliminandoId() === p.idProducto ? 'Desactivando…' : 'Desactivar' }}
-                  </button>
+                  @if (esDueno()) {
+                    <a
+                      [routerLink]="['/app/productos', p.idProducto, 'editar']"
+                      class="btn btn--ghost btn--sm"
+                      [attr.aria-label]="'Editar ' + p.nombre"
+                    >Editar</a>
+                    <button
+                      type="button"
+                      class="btn btn--danger btn--sm"
+                      (click)="eliminar(p)"
+                      [disabled]="eliminandoId() === p.idProducto"
+                      [attr.aria-label]="'Desactivar ' + p.nombre"
+                    >
+                      {{ eliminandoId() === p.idProducto ? 'Desactivando…' : 'Desactivar' }}
+                    </button>
+                  }
                 </div>
               </td>
             </tr>
