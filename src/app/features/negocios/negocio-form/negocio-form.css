@@ -65,3 +65,9 @@ form.card .btn {
     grid-template-columns: 1fr 260px;
   }
 }
+
+.mini-top__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

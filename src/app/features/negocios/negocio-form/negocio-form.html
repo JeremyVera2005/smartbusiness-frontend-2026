@@ -1,7 +1,10 @@
 <header class="mini-top">
   <div class="mini-top__inner container">
     <span class="brand"><ng-icon name="lucideStore" aria-hidden="true" /> SmartBusiness<span>IA</span></span>
-    <button type="button" class="btn btn--ghost btn--sm" (click)="logout()">Cerrar sesión</button>
+    <div class="mini-top__actions">
+      <app-theme-toggle />
+      <button type="button" class="btn btn--ghost btn--sm" (click)="logout()">Cerrar sesión</button>
+    </div>
   </div>
 </header>
 

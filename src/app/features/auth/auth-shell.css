@@ -11,6 +11,7 @@
 }
 
 .auth__form-side {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -246,4 +247,11 @@
   .auth__brand-side {
     display: flex;
   }
+}
+
+/* Botón de tema claro / oscuro en la esquina del formulario */
+.auth__theme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }

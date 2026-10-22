@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
+import { ThemeToggle } from '../../../shared/components/theme-toggle/theme-toggle';
 import { NegocioService } from '../../../core/services/negocio.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { NegocioResponse, TIPOS_NEGOCIO } from '../../../core/models';
@@ -9,7 +10,7 @@ import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 
 @Component({
   selector: 'app-negocio-list',
-  imports: [RouterLink, Spinner, EmptyState, NgIcon],
+  imports: [RouterLink, Spinner, EmptyState, NgIcon, ThemeToggle],
   templateUrl: './negocio-list.html',
   styleUrl: './negocio-list.css',
 })

@@ -5,6 +5,7 @@ import { NegocioService } from '../../core/services/negocio.service';
 import { AuthService } from '../../core/services/auth.service';
 import { TIPOS_NEGOCIO } from '../../core/models';
 import { ShortcutsHelp } from '../../shared/components/shortcuts-help/shortcuts-help';
+import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
 
 interface NavItem {
   label: string;
@@ -26,7 +27,7 @@ const NAV: NavItem[] = [
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIcon, ShortcutsHelp],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIcon, ShortcutsHelp, ThemeToggle],
   templateUrl: './shell.html',
   styleUrl: './shell.css',
   host: {

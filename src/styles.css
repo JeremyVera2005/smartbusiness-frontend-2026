@@ -58,8 +58,11 @@
   color-scheme: light;
 }
 
+/* Tema oscuro: se aplica si el usuario lo eligió con el botón de tema
+   (data-theme="dark") o, si no eligió, cuando el sistema operativo está
+   en modo oscuro. data-theme="light" fuerza el tema claro. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --c-bg: #10121f;
     --c-surface: #191c30;
     --c-surface-2: #212440;
@@ -97,6 +100,45 @@
     --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
     color-scheme: dark;
   }
+}
+
+:root[data-theme='dark'] {
+  --c-bg: #10121f;
+  --c-surface: #191c30;
+  --c-surface-2: #212440;
+  --c-border: #323659;
+  --c-text: #eceefb;
+  --c-text-soft: #a8adce;
+  --c-text-faint: #767bab;
+
+  --c-primary-50: #1d2050;
+  --c-primary-100: #262a63;
+  --c-primary-300: #565bb0;
+  --c-primary: #8286ef;
+  --c-primary-dark: #a3a6f5;
+  --c-primary-deep: #dbdcfb;
+  --c-primary-soft: #262a63;
+  --c-primary-contrast: #12142a;
+
+  --c-secondary: #3ed393;
+  --c-secondary-dark: #6fe0ac;
+  --c-secondary-soft: #123527;
+
+  --c-success: #3ed393;
+  --c-success-soft: #123527;
+  --c-warning: #f0b859;
+  --c-warning-soft: #3a2a10;
+  --c-danger: #f0716f;
+  --c-danger-soft: #3d1e1e;
+  --c-info: #6c9bf7;
+  --c-info-soft: #1c2b4d;
+  --c-insight: #b18cf7;
+  --c-insight-soft: #2c2050;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
 }
 
 /* ------------------------------------------------------------------ Reset */
